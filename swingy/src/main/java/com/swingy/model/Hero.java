@@ -1,44 +1,59 @@
-package com.swingy;
+package com.swingy.model;
 
 import java.util.Random;
 
 //TODO: Character?, CharacterGenerator @setter
-public class Hero {
-    private String p_name;
-    private String p_heroClass;
-    private int p_level;
-    private int p_experience;
-    private int p_attack;
-    private int p_defense;
-    private int p_hitPoints;
+public abstract class Hero extends Character {
+    // private String p_name;
+    // private String p_heroClass;
+    // private int p_level;
+    private int experience;
+    // private int attack;
+    // private int defense;
+    // private int hitPoints;
 
-    private Weapon p_weapon;
-    private Armor p_armor;
-    private Helm p_helm;
+    //artifacts
+    // private Weapon p_weapon;
+    // private Armor p_armor;
+    // private Helm p_helm;
 
-    public Hero(String name, String heroClass) {
-        this.p_name = name;
-        this.p_heroClass = heroClass;
-        this.p_level = 1;
-        this.p_experience = 0;
-        this.p_attack = new Random().nextInt(10) + 5;
-        this.p_defense = new Random().nextInt(10) + 5;
-        this.p_hitPoints = new Random().nextInt(20) + 30;
+    //antiguo constructor
+    // public Hero(String name, String heroClass) {
+    //     this.p_name = name;
+    //     this.p_heroClass = heroClass;
+    //     this.p_level = 1;
+    //     this.experience = 0;
+    //     this.attack = new Random().nextInt(10) + 5;
+    //     this.defense = new Random().nextInt(10) + 5;
+    //     this.hitPoints = new Random().nextInt(20) + 30;
+    // }
+
+    public Hero(String name, int level, int attack, int defense, int hitPoints) {
+        super(name, level, attack, defense, hitPoints);
+        this.experience = 0;
+    }
+
+    public void gainExperience(int xp) {
+        experience += xp;
+        System.out.println(name + " ganó " + xp + " XP. Total: " + experience);
+        levelUp();
     }
 
     public void levelUp() {
-        int requiredXP = (p_level * 1000) + ((p_level - 1) * (p_level - 1) * 450);
+        int requiredXP = (level * 1000) + ((p_level - 1) * (level - 1) * 450);
 
-        if (p_experience >= requiredXP) {
-            p_level++;
-            p_experience -= requiredXP;
-            p_attack += new Random().nextInt(5) + 2;
-            p_defense += new Random().nextInt(5) + 2;
-            p_hitPoints += new Random().nextInt(10) + 5;
+        if (experience >= requiredXP) {
+            level++;
+            experience -= requiredXP;
+            attack += new Random().nextInt(5) + 2;
+            defense += new Random().nextInt(5) + 2;
+            hitPoints += new Random().nextInt(10) + 5;
 
-            // System.out.println("Nuevo ataque: " + p_attack + ", Defensa: " + p_defense + ", HP: " + p_hitPoints);
+            // System.out.println("Nuevo ataque: " + attack + ", Defensa: " + defense + ", HP: " + hitPoints);
         }
     }
+
+    public abstract String getHeroClass();
 
 }
 

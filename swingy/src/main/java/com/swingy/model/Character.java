@@ -1,4 +1,4 @@
-package com.swingy;
+package com.swingy.model;
 
 public abstract class Character {
     protected String name;
