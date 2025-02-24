@@ -48,9 +48,14 @@ public abstract class Hero extends Character {
             attack += new Random().nextInt(5) + 2;
             defense += new Random().nextInt(5) + 2;
             hitPoints += new Random().nextInt(10) + 5;
-
-            // System.out.println("Nuevo ataque: " + attack + ", Defensa: " + defense + ", HP: " + hitPoints);
         }
+    }
+
+    public void displayStats() {
+        System.out.println(getHeroClass() + " Stats for " + name + ":");
+        System.out.println("Health Points (HP): " + hitPoints);
+        System.out.println("Attack: " + attack);
+        System.out.println("Defense: " + defense);
     }
 
     public abstract String getHeroClass();

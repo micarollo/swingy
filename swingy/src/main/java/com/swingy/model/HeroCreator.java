@@ -5,29 +5,46 @@ import java.util.Scanner;
 public class HeroCreator {
     public static Hero createHero() {
         Scanner scanner = new Scanner(System.in);
-
-        // Mostrar opciones al usuario
+        Hero hero;
+        
         System.out.println("Choose your Hero class:");
         System.out.println("1. Warrior");
         System.out.println("2. Mage");
-        System.out.print("Enter the number of the class you want: ");
 
-        // Leer la elección del usuario
-        int choice = scanner.nextInt();
+        int choice = 0;
+        boolean valid = false;
+        // System.out.print("Enter the number of the class you want: ");
+        // int choice = scanner.nextInt();
+        // scanner.nextLine();
+        while (!valid) {
+            System.out.print("Enter the number of the class you want: ");
+            try {
+                choice = scanner.nextInt();
+                scanner.nextLine();
+                if (choice == 1 || choice == 2) {
+                    valid = true;
+                } else {
+                    System.out.println("Invalid choice. Please enter 1 or 2.");
+                }
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+                scanner.nextLine();
+            }
+        }
 
-        Hero hero;
+        System.out.print("Enter your hero's name: ");
+        String heroName = scanner.nextLine();
         switch (choice) {
             case 1:
-                hero = new Warrior("Warrior");
+                hero = new Warrior(heroName);
                 break;
             case 2:
-                hero = new Mage("Mage");
+                hero = new Mage(heroName);
                 break;
             default:
                 System.out.println("Invalid choice. Defaulting to Warrior.");
                 hero = new Warrior("Default Warrior");
         }
-
         return hero;
     }
 }

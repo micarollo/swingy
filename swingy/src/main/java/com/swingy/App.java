@@ -33,7 +33,8 @@ public class App
             // System.out.println("Hit Points: " + warrior.getHitPoints());
             Hero hero = HeroCreator.createHero();
             System.out.println("You have chosen: " + hero.getName());
-            System.out.println("Hero Stats - HP: " + hero.getHitPoints() + ", Attack: " + hero.getAttack() + ", Defense: " + hero.getDefense());
+            // System.out.println("Hero Stats - HP: " + hero.getHitPoints() + ", Attack: " + hero.getAttack() + ", Defense: " + hero.getDefense());
+            hero.displayStats();
         }
         else
             System.out.println("Must be: console o gui");
