@@ -44,6 +44,7 @@
               <configuration>
                   <source>1.8</source> <!-- Versión de Java de origen -->
                   <target>1.8</target> <!-- Versión de Java de destino -->
+                  <encoding>UTF-8</encoding>
               </configuration>
           </plugin>
 
