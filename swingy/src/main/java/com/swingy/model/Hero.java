@@ -40,7 +40,7 @@ public abstract class Hero extends Character {
     }
 
     public void levelUp() {
-        int requiredXP = (level * 1000) + ((p_level - 1) * (level - 1) * 450);
+        int requiredXP = (level * 1000) + ((level - 1) * (level - 1) * 450);
 
         if (experience >= requiredXP) {
             level++;

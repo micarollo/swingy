@@ -16,9 +16,10 @@ public abstract class Character {
     }
 
     public void takeDamage(int damage) {
-        int reducedDamage = Math.max(0, damage - defense);
-        hitPoints -= reducedDamage;
-        System.out.println(name + " recibió " + reducedDamage + " de daño. HP restante: " + hitPoints);
+        // int reducedDamage = Math.max(0, damage - defense);
+        // hitPoints -= reducedDamage;
+        // System.out.println(name + " recibió " + reducedDamage + " de daño. HP restante: " + hitPoints);
+        hitPoints -= Math.max(0, damage - defense);
     }
 
     public boolean isAlive() {
