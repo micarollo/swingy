@@ -13,9 +13,6 @@ public class HeroCreator {
 
         int choice = 0;
         boolean valid = false;
-        // System.out.print("Enter the number of the class you want: ");
-        // int choice = scanner.nextInt();
-        // scanner.nextLine();
         while (!valid) {
             System.out.print("Enter the number of the class you want: ");
             try {
