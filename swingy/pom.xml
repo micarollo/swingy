@@ -37,9 +37,9 @@
               <configuration>
                 <outputDirectory>${project.basedir}</outputDirectory>
                 <archive>
-                    <manifestEntries>
+                    <manifest>
                         <Main-Class>com.swingy.App</Main-Class>
-                    </manifestEntries>
+                    </manifest>
                 </archive>
               </configuration>
           </plugin>
