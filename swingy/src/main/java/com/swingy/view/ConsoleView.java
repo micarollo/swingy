@@ -4,10 +4,14 @@ import java.util.Scanner;
 
 import com.swingy.model.Hero;
 
-public class HeroView {
+public class ConsoleView {
     Scanner scanner = new Scanner(System.in);
+    
+    public void displayWelcomeMessage() {
+        System.out.println("Welcome to Swingy RPG!");
+    }
 
-    public int setHeroClass() {
+    public int chooseHeroClass() {
         System.out.println("Choose your Hero class:");
         System.out.println("1. Warrior");
         System.out.println("2. Mage");
@@ -32,16 +36,44 @@ public class HeroView {
         return choice;
     }
 
-    public String setHeroName() {
+    public String chooseHeroName() {
         System.out.print("Enter your hero's name: ");
         return scanner.nextLine();
+    }
+
+    public int displayMenu() {
+        int choice;
+        System.out.println("\nWhat do you want to do now?");
+        System.out.println("1. Move North");
+        System.out.println("2. Move South");
+        System.out.println("3. Move East");
+        System.out.println("4. Move West");
+        System.out.println("5. View Hero Stats");
+        System.out.println("6. Exit Game");
+        choice = scanner.nextInt();
+        scanner.nextLine();
+        return choice;
+    }
+
+    public int displayFightOrFlee() {
+        int choice;
+        System.out.println("A villain is here! Choose your action:");
+        System.out.println("1. Fight");
+        System.out.println("2. Run");
+        choice = scanner.nextInt();
+        scanner.nextLine();
+        return choice;
+    }
+
+    public void displayExitMessage() {
+        System.out.println("Exiting game. Goodbye!");
     }
 
     public void displayHeroCreation(String heroClass, String heroName) {
         System.out.println("Successfully created a " + heroClass + ": " + heroName);
     }
     
-    public void displayStats(Hero hero) {
+    public void displayHeroStats(Hero hero) {
         System.out.println(hero.getHeroClass() + " Stats for " + hero.getName() + ":");
         System.out.println("Level: " + hero.getLevel());
         System.out.println("HitPoints: " + hero.getHitPoints());

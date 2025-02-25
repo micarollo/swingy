@@ -1,7 +1,8 @@
 package com.swingy;
 
+import com.swingy.controller.HeroController;
 import com.swingy.model.Hero;
-import com.swingy.model.HeroCreator;
+import com.swingy.view.ConsoleView;
 
 public class App 
 {
@@ -14,9 +15,11 @@ public class App
         }
         if (args[0].equals("console")) 
         {
-            Hero hero = HeroCreator.createHero();
-            System.out.println("You have chosen: " + hero.getName());
-            hero.displayStats();
+            ConsoleView consoleView = new ConsoleView();
+            HeroController heroController = new HeroController(consoleView);
+            Hero hero = heroController.HeroCreator();
+            consoleView.displayHeroStats(hero);
+            consoleView.displayMenu();
         }
         else
             System.out.println("Must be: console o gui");
