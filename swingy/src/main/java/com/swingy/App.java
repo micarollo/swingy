@@ -2,6 +2,7 @@ package com.swingy;
 
 import com.swingy.controller.HeroController;
 import com.swingy.model.Hero;
+import com.swingy.model.Map;
 import com.swingy.view.ConsoleView;
 
 public class App 
@@ -19,7 +20,9 @@ public class App
             HeroController heroController = new HeroController(consoleView);
             Hero hero = heroController.HeroCreator();
             consoleView.displayHeroStats(hero);
-            consoleView.displayMenu();
+            // consoleView.displayMenu();
+            Map map = new Map(hero.getLevel());
+            consoleView.displayMap(map);
         }
         else
             System.out.println("Must be: console o gui");

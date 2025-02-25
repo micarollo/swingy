@@ -7,6 +7,8 @@ import com.swingy.view.ConsoleView;
 
 public class HeroController {
     private final ConsoleView consoleView;
+    private int x;
+    private int y;
 
     public HeroController(ConsoleView consoleView) {
         this.consoleView = consoleView;
@@ -32,5 +34,22 @@ public class HeroController {
                 break;
         }
         return hero;
+    }
+
+    public void moveHero(int direction) {
+        switch (direction) {
+            case 1:
+                y++;
+                break;
+            case 2:
+                y--;
+                break;
+            case 3:
+                x++;
+                break;
+            case 4:
+                x--;
+                break;
+        }
     }
 }

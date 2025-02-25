@@ -3,6 +3,7 @@ package com.swingy.view;
 import java.util.Scanner;
 
 import com.swingy.model.Hero;
+import com.swingy.model.Map;
 
 public class ConsoleView {
     Scanner scanner = new Scanner(System.in);
@@ -13,8 +14,8 @@ public class ConsoleView {
 
     public int chooseHeroClass() {
         System.out.println("Choose your Hero class:");
-        System.out.println("1. Warrior");
-        System.out.println("2. Mage");
+        System.out.println("1. Warrior [Attack:15 | Defense:10 | HP:50]");
+        System.out.println("2. Mage [Attack:10 | Defense:5 | HP:40]");
 
         int choice = 0;
         boolean valid = false;
@@ -55,7 +56,7 @@ public class ConsoleView {
         return choice;
     }
 
-    public int displayFightOrFlee() {
+    public int displayFight() {
         int choice;
         System.out.println("A villain is here! Choose your action:");
         System.out.println("1. Fight");
@@ -84,5 +85,26 @@ public class ConsoleView {
 
     public void displayExperienceGain(Hero hero, int xp) {
         System.out.println(hero.getName() + " won " + xp + " XP. Total: " + hero.getExperience());
+    }
+
+    public void displayMap(Map map) {
+        int size = map.getSize();
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                int cell = map.getCell(i, j);
+                switch (cell) {
+                    case 0:
+                        System.out.print("[ ]");
+                        break;
+                    case 1:
+                        System.out.print("[X]");
+                        break;
+                    case 2:
+                        System.out.print("[P]");
+                        break;
+                }
+            }
+            System.out.println();
+        }
     }
 }
