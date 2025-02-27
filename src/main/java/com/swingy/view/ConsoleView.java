@@ -56,7 +56,7 @@ public class ConsoleView {
         return choice;
     }
 
-    public int displayFight() {
+    public int displayFightorRun() {
         int choice;
         System.out.println("A villain is here! Choose your action:");
         System.out.println("1. Fight");
@@ -106,5 +106,9 @@ public class ConsoleView {
             }
             System.out.println();
         }
+    }
+
+    public void runMsg() {
+        System.out.println("You runned like a coward!");
     }
 }

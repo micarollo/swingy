@@ -1,5 +1,7 @@
 package com.swingy.controller;
 
+import java.util.Random;
+
 import com.swingy.model.Hero;
 import com.swingy.model.Mage;
 import com.swingy.model.Warrior;
@@ -58,12 +60,34 @@ public class HeroController {
                 mapController.updateMap(x, y, 2);
                 break;
             case 1:
-                // displayBattle();
+                int choose = consoleView.displayFightorRun();
+                handleBattle(choose);
                 break;
             case -1:
                 //displayOutOfMap();
                 break;
         }
+    }
+
+    public void handleBattle(int choose) {
+        if (choose == 1) {
+            System.out.println("fight");
+        }
+        else
+            runAway();
+		}
+		
+		public void runAway() {
+			Random random = new Random();
+			int size = mapController.getSize();
+			int newX, newY;
+			do { 
+				newX = random.nextInt(size);
+				newY = random.nextInt(size);
+			} while (mapController.getCell(newX, newY) != 0);
+			mapController.setCell(x, y, 0);
+			mapController.setCell(newX, newY, 2);
+			consoleView.runMsg();	
     }
 
     public int getX() {

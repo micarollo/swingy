@@ -63,6 +63,11 @@ public class MapController {
         map.setCell(x, y, value);
 	}
 
+    public int getCell(int x, int y) {
+        int result = map.getCell(x, y);
+        return result;
+    }
+
 	public int getSize() {
 		return map.getSize();
 	}
@@ -71,6 +76,7 @@ public class MapController {
 		return map;
 	}
 
+    //eliminar codigo duplicado
 	public void updateMap(int x, int y, int value) {
 		map.setCell(x, y, value);
 	}

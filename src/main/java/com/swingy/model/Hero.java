@@ -2,7 +2,6 @@ package com.swingy.model;
 
 import java.util.Random;
 
-//TODO: Character?, CharacterGenerator @setter
 public abstract class Hero extends Character {
     private int experience;
 
