@@ -48,8 +48,17 @@ public class GameController {
                 break;
             case 5:
                 consoleView.displayHeroStats(hero);
+                break;
+            case 6:
+                consoleView.displayExitMessage();
+                exitGame();
+                break;
             default:
                 throw new AssertionError();
         }
+    }
+
+    public void exitGame() {
+        System.exit(0);
     }
 }
