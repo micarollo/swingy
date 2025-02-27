@@ -4,18 +4,22 @@ import java.util.Random;
 
 import com.swingy.model.Hero;
 import com.swingy.model.Mage;
+import com.swingy.model.Villain;
 import com.swingy.model.Warrior;
 import com.swingy.view.ConsoleView;
 
 public class HeroController {
     private final ConsoleView consoleView;
     private final MapController mapController;
+    private final VillainController villainController;
+    private Hero hero;
     private int x;
     private int y;
 
-    public HeroController(ConsoleView consoleView, MapController mapController) {
+    public HeroController(ConsoleView consoleView, MapController mapController, VillainController villainController) {
         this.consoleView = consoleView;
         this.mapController = mapController;
+        this.villainController = villainController;
         // this.x = posX;
         // this.y = posY;
         this.x = mapController.getSize() / 2;
@@ -25,7 +29,7 @@ public class HeroController {
     public Hero HeroCreator() {
         int choice = consoleView.chooseHeroClass();
         String name = consoleView.chooseHeroName();
-        Hero hero;
+        // Hero hero;
 
         switch (choice) {
             case 1:
@@ -61,7 +65,12 @@ public class HeroController {
                 break;
             case 1:
                 int choose = consoleView.displayFightorRun();
-                handleBattle(choose);
+                if (handleBattle(choose, (x + nx), (y + ny))) {
+                    mapController.updateMap(x, y, 0);
+                    x = x + nx;
+                    y = y + ny;
+                    mapController.updateMap(x, y, 2);
+                }
                 break;
             case -1:
                 //displayOutOfMap();
@@ -69,13 +78,33 @@ public class HeroController {
         }
     }
 
-    public void handleBattle(int choose) {
+    public boolean handleBattle(int choose, int villainX, int villainY) {
         if (choose == 1) {
+            Villain villain = villainController.villainCreator(hero.getLevel());
             System.out.println("fight");
+            while (hero.isAlive() && villain.isAlive()) {
+                villain.takeDamage(hero.getAttack());
+                System.out.println("VILLAIN HP: " + villain.getHitPoints());
+                if (!villain.isAlive())
+                {
+                    System.out.println("You win");
+                    // mapController.setCell(x, y, 0);
+                    // mapController.setCell(villainX, villainY, 2);
+                    return true;
+                }
+                hero.takeDamage(villain.getAttack());
+                System.out.println("HERO HP: " + hero.getHitPoints());
+                if (!hero.isAlive())
+                {
+                    System.out.println("The villain won");
+                    return false;
+                }
+            }
         }
         else
             runAway();
-		}
+        return false;
+	}
 		
 		public void runAway() {
 			Random random = new Random();
@@ -87,6 +116,8 @@ public class HeroController {
 			} while (mapController.getCell(newX, newY) != 0);
 			mapController.setCell(x, y, 0);
 			mapController.setCell(newX, newY, 2);
+            x = newX;
+            y = newY;
 			consoleView.runMsg();	
     }
 
@@ -96,5 +127,9 @@ public class HeroController {
 
     public int getY() {
         return y;
+    }
+
+    public Hero getHero() {
+        return hero;
     }
 }

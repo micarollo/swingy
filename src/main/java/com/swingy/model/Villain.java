@@ -1,6 +1,6 @@
 package com.swingy.model;
 
-public abstract class Villain extends Character {
+public class Villain extends Character {
     private String villainClass;
 
     public Villain(String name, int level, int attack, int defense, int hitPoints) {

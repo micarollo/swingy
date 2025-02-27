@@ -7,13 +7,15 @@ public class GameController {
     private final MapController mapController;
     private final ConsoleView consoleView;
     private final HeroController heroController;
+    private final VillainController villainController;
     private Hero hero;
 
     public GameController() {
         this.consoleView = new ConsoleView();
         this.mapController = new MapController();
         mapController.createMap(1);
-        this.heroController = new HeroController(consoleView, mapController);
+        this.villainController = new VillainController();
+        this.heroController = new HeroController(consoleView, mapController, villainController);
     }
 
     public void startGame() {

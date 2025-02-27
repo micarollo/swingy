@@ -76,7 +76,7 @@ public class MapController {
 		return map;
 	}
 
-    //eliminar codigo duplicado
+    //modificar: coordenadas antiguas y nuevas, valor ant valor nuevo
 	public void updateMap(int x, int y, int value) {
 		map.setCell(x, y, value);
 	}
