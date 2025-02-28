@@ -16,7 +16,7 @@ public class Map {
     }
 
     public int calculateVillains() {
-        return (int) (size * size * 0.1);
+        return (int) (size * size * 0.3);
     }
 
     public int getCell(int x, int y) {
