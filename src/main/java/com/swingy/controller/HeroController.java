@@ -1,6 +1,7 @@
 package com.swingy.controller;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.swingy.model.Hero;
 import com.swingy.model.Mage;
@@ -15,6 +16,7 @@ public class HeroController {
     private Hero hero;
     private int x;
     private int y;
+    Random random = new Random();
 
     public HeroController(ConsoleView consoleView, MapController mapController, GameController gameController) {
         this.consoleView = consoleView;
@@ -52,6 +54,7 @@ public class HeroController {
 
     public void moveHero(int nx, int ny) {
         int result = mapController.isValidMove((x + nx), (y + ny));
+        // Random random = new Random();
         switch (result) {
             case 0:
                 mapController.updateMap(x, y, 0);
@@ -64,8 +67,18 @@ public class HeroController {
                 if (choose == 1)
                 {
                     gameController.handleBattle(hero, (x + nx), (y + ny));
-                } else
-                    runAway();
+                } else {
+                    // int luck = random.nextInt(2);
+                    int luck = ThreadLocalRandom.current().nextInt(2);
+                    System.out.println("luck: " + luck);
+                    if (luck == 0) {
+                        runAway();
+                    } else {
+                        System.out.println("Bad luck, the villain don't let you run and you have to fight!!");
+                        gameController.handleBattle(hero, (x + nx), (y + ny));
+                    }
+                }
+                    // runAway();
                 // if (handleBattle(choose, (x + nx), (y + ny))) {
                 //     mapController.updateMap(x, y, 0);
                 //     x = x + nx;
@@ -116,19 +129,19 @@ public class HeroController {
     //     return false;
 	// }
 		
-		public void runAway() {
-			Random random = new Random();
-			int size = mapController.getSize();
-			int newX, newY;
-			do { 
-				newX = random.nextInt(size);
-				newY = random.nextInt(size);
-			} while (mapController.getCell(newX, newY) != 0);
-			mapController.setCell(x, y, 0);
-			mapController.setCell(newX, newY, 2);
-            x = newX;
-            y = newY;
-			consoleView.runMsg();	
+    public void runAway() {
+        // Random random = new Random();
+        int size = mapController.getSize();
+        int newX, newY;
+        do { 
+            newX = random.nextInt(size);
+            newY = random.nextInt(size);
+        } while (mapController.getCell(newX, newY) != 0);
+        mapController.setCell(x, y, 0);
+        mapController.setCell(newX, newY, 2);
+        x = newX;
+        y = newY;
+        consoleView.runMsg();	
     }
 
     public void updateHeroPosition(int newX, int newY) {
