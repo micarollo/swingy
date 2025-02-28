@@ -1,6 +1,9 @@
 package com.swingy.controller;
 
+import java.util.Random;
+
 import com.swingy.model.Hero;
+import com.swingy.model.Villain;
 import com.swingy.view.ConsoleView;
 
 public class GameController {
@@ -15,7 +18,8 @@ public class GameController {
         this.mapController = new MapController();
         mapController.createMap(1);
         this.villainController = new VillainController();
-        this.heroController = new HeroController(consoleView, mapController, villainController);
+        // this.heroController = new HeroController(consoleView, mapController, villainController);
+        this.heroController = new HeroController(consoleView, mapController, this);
     }
 
     public void startGame() {
@@ -59,6 +63,40 @@ public class GameController {
                 throw new AssertionError();
         }
     }
+
+    public void handleBattle(Hero hero, int newX, int newY) {
+        Random random = new Random();
+        Villain villain = villainController.villainCreator(hero.getLevel());
+        double heroDodge = 0.2;
+        double villainDodge = 0.1;
+        System.out.println("<<-----FIGHTING----->>");
+        while (hero.isAlive() && villain.isAlive()) {
+            if (random.nextDouble() >= villainDodge) {
+                int heroDamage = hero.getAttack() + random.nextInt(5);
+                villain.takeDamage(heroDamage);
+                System.out.println("VILLAIN HP: " + villain.getHitPoints());
+            } else 
+                System.out.println("Villain dodged the attack!");
+            if (!villain.isAlive())
+            {
+                System.out.println("You win");
+                mapController.setCell(heroController.getX(), heroController.getY(), 0);
+                mapController.setCell(newX, newY, 2);
+                heroController.updateHeroPosition(newX, newY);
+                hero.gainExperience(1000);
+            }
+            if (random.nextDouble() >= heroDodge) {
+                int villainDamage = villain.getAttack() + random.nextInt(3);
+                hero.takeDamage(villainDamage);
+                System.out.println("HERO HP: " + hero.getHitPoints());
+            } else 
+                System.out.println("Hero dodged the attack!");
+            if (!hero.isAlive())
+            {
+                consoleView.gameOver();
+            }
+        }   
+	}
 
     public void exitGame() {
         System.exit(0);

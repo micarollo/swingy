@@ -97,7 +97,7 @@ public class ConsoleView {
                         System.out.print("[ ]");
                         break;
                     case 1:
-                        System.out.print("[X]");
+                        System.out.print("[V]");
                         break;
                     case 2:
                         System.out.print("[P]");
