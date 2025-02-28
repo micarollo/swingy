@@ -106,8 +106,11 @@ public class GameController {
         System.out.println("You gained " + xpGained + " experience.");
         System.out.println("Total Experience: " + hero.getExperience());
         System.out.println("Current Level: " + hero.getLevel());
-        if (levelUp)
+        if (levelUp) {
             mapController.changeLevel(hero.getLevel());
+            heroController.updateHeroPosition((mapController.getSize() / 2), (mapController.getSize() / 2));
+            System.out.println("X: " + heroController.getX() + " Y: " + heroController.getY());
+        }
     }
 
     public void exitGame() {
