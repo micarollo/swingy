@@ -29,13 +29,6 @@ public abstract class Hero extends Character {
         return false;
     }
 
-    // public void displayStats() {
-    //     System.out.println(getHeroClass() + " Stats for " + name + ":");
-    //     System.out.println("Health Points (HP): " + hitPoints);
-    //     System.out.println("Attack: " + attack);
-    //     System.out.println("Defense: " + defense);
-    // }
-
     public int getExperience() { return experience; }
     public abstract String getHeroClass();
 }
