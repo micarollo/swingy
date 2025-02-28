@@ -50,11 +50,6 @@ public class HeroController {
     }
 
     public void moveHero(int nx, int ny) {
-        // int newX = x + nx;
-        // int newY = y + ny;
-        // //chequear que sea valido el mov;
-        // x = newX;
-        // y = newY;
         int result = mapController.isValidMove((x + nx), (y + ny));
         switch (result) {
             case 0:
@@ -79,24 +74,33 @@ public class HeroController {
     }
 
     public boolean handleBattle(int choose, int villainX, int villainY) {
+        Random random = new Random();
         if (choose == 1) {
             Villain villain = villainController.villainCreator(hero.getLevel());
-            System.out.println("fight");
+            double heroDodge = 0.2;
+            double villainDodge = 0.1;
+            System.out.println("<<-----FIGHTING----->>");
             while (hero.isAlive() && villain.isAlive()) {
-                villain.takeDamage(hero.getAttack());
-                System.out.println("VILLAIN HP: " + villain.getHitPoints());
+                if (random.nextDouble() >= villainDodge) {
+                    int heroDamage = hero.getAttack() + random.nextInt(5);
+                    villain.takeDamage(heroDamage);
+                    System.out.println("VILLAIN HP: " + villain.getHitPoints());
+                } else 
+                    System.out.println("Villain dodged the attack!");
                 if (!villain.isAlive())
                 {
                     System.out.println("You win");
-                    // mapController.setCell(x, y, 0);
-                    // mapController.setCell(villainX, villainY, 2);
                     return true;
                 }
-                hero.takeDamage(villain.getAttack());
-                System.out.println("HERO HP: " + hero.getHitPoints());
+                if (random.nextDouble() >= heroDodge) {
+                    int villainDamage = villain.getAttack() + random.nextInt(3);
+                    hero.takeDamage(villainDamage);
+                    System.out.println("HERO HP: " + hero.getHitPoints());
+                } else 
+                    System.out.println("Hero dodged the attack!");
                 if (!hero.isAlive())
                 {
-                    System.out.println("The villain won");
+                    consoleView.gameOver();
                     return false;
                 }
             }

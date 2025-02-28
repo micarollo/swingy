@@ -111,4 +111,9 @@ public class ConsoleView {
     public void runMsg() {
         System.out.println("You runned like a coward!");
     }
+
+    public void gameOver() {
+        System.out.println("The villain won. GAME OVER");
+        System.exit(0);
+    }
 }
