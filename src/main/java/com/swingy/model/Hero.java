@@ -10,12 +10,12 @@ public abstract class Hero extends Character {
         this.experience = 0;
     }
 
-    public void gainExperience(int xp) {
+    public boolean gainExperience(int xp) {
         experience += xp;
-        levelUp();
+        return levelUp();
     }
 
-    public void levelUp() {
+    public boolean levelUp() {
         int requiredXP = (level * 1000) + ((level - 1) * (level - 1) * 450);
 
         if (experience >= requiredXP) {
@@ -24,7 +24,9 @@ public abstract class Hero extends Character {
             attack += new Random().nextInt(5) + 2;
             defense += new Random().nextInt(5) + 2;
             hitPoints += new Random().nextInt(10) + 5;
+            return true;
         }
+        return false;
     }
 
     // public void displayStats() {

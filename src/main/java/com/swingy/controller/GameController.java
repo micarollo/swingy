@@ -83,7 +83,8 @@ public class GameController {
                 mapController.setCell(heroController.getX(), heroController.getY(), 0);
                 mapController.setCell(newX, newY, 2);
                 heroController.updateHeroPosition(newX, newY);
-                hero.gainExperience(1000);
+                gainHeroExperience(hero, villain);
+                return;
             }
             if (random.nextDouble() >= heroDodge) {
                 int villainDamage = villain.getAttack() + random.nextInt(3);
@@ -97,6 +98,17 @@ public class GameController {
             }
         }   
 	}
+
+    public void gainHeroExperience(Hero hero, Villain villain) {
+        int power = villain.getPower();
+        int xpGained = power * 10;
+        boolean levelUp = hero.gainExperience(xpGained);
+        System.out.println("You gained " + xpGained + " experience.");
+        System.out.println("Total Experience: " + hero.getExperience());
+        System.out.println("Current Level: " + hero.getLevel());
+        if (levelUp)
+            mapController.changeLevel(hero.getLevel());
+    }
 
     public void exitGame() {
         System.exit(0);

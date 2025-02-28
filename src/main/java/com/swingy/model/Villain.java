@@ -10,4 +10,10 @@ public class Villain extends Character {
     public String getVillainClass() {
         return villainClass;
     }
+
+    public int getPower() {
+        int power = (getAttack() + getDefense() + getHitPoints() + getLevel()) * 2;
+        return power;
+    }
+
 }
