@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.swingy.model.Hero;
 import com.swingy.model.Map;
+import com.swingy.model.Villain;
 
 public class ConsoleView {
     Scanner scanner = new Scanner(System.in);
@@ -85,6 +86,7 @@ public class ConsoleView {
 
     public void displayExperienceGain(Hero hero, int xp) {
         System.out.println(hero.getName() + " won " + xp + " XP. Total: " + hero.getExperience());
+        System.out.println("Current Level: " + hero.getLevel());
     }
 
     public void displayMap(Map map) {
@@ -112,8 +114,32 @@ public class ConsoleView {
         System.out.println("You runned like a coward!");
     }
 
+    // public void displayExperienceGained(int xpGained, Hero hero) {
+    //     System.out.println("You gained " + xpGained + " experience.");
+    //     System.out.println("Total Experience: " + hero.getExperience());
+    //     System.out.println("Current Level: " + hero.getLevel());
+    // }
+
     public void gameOver() {
         System.out.println("The villain won. GAME OVER");
         System.exit(0);
+    }
+
+    public void displayVillainStats(Villain villain) {
+        System.out.println("-------------------------------");
+        System.out.println("VILLAIN STATS");
+        System.out.print("HP: " + villain.getHitPoints() + "| ");
+        System.out.print("Attack: " + villain.getAttack() + "| ");
+        System.out.println("Defense: " + villain.getDefense());
+        System.out.println("-------------------------------");
+    }
+
+    public void displayHeroBattleStats(Hero hero) {
+        System.out.println("-------------------------------");
+        System.out.println("HERO STATS");
+        System.out.print("HP: " + hero.getHitPoints() + "| ");
+        System.out.print("Attack: " + hero.getAttack() + "| ");
+        System.out.println("Defense: " + hero.getDefense());
+        System.out.println("-------------------------------");
     }
 }

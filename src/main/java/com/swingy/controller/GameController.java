@@ -69,7 +69,9 @@ public class GameController {
         Villain villain = villainController.villainCreator(hero.getLevel());
         double heroDodge = 0.2;
         double villainDodge = 0.1;
-        System.out.println("<<-----FIGHTING----->>");
+        System.out.println("<<-------------FIGHTING------------>>");
+        consoleView.displayHeroBattleStats(hero);
+        consoleView.displayVillainStats(villain);
         while (hero.isAlive() && villain.isAlive()) {
             if (random.nextDouble() >= villainDodge) {
                 int heroDamage = hero.getAttack() + random.nextInt(5);
@@ -80,6 +82,7 @@ public class GameController {
             if (!villain.isAlive())
             {
                 System.out.println("You win");
+                System.out.println("<<--------------END------------->");
                 mapController.setCell(heroController.getX(), heroController.getY(), 0);
                 mapController.setCell(newX, newY, 2);
                 heroController.updateHeroPosition(newX, newY);
@@ -103,13 +106,15 @@ public class GameController {
         int power = villain.getPower();
         int xpGained = power * 10;
         boolean levelUp = hero.gainExperience(xpGained);
-        System.out.println("You gained " + xpGained + " experience.");
-        System.out.println("Total Experience: " + hero.getExperience());
-        System.out.println("Current Level: " + hero.getLevel());
+        // System.out.println("You gained " + xpGained + " experience.");
+        // System.out.println("Total Experience: " + hero.getExperience());
+        // System.out.println("Current Level: " + hero.getLevel());
+        consoleView.displayExperienceGain(hero, xpGained);
         if (levelUp) {
             mapController.changeLevel(hero.getLevel());
             heroController.updateHeroPosition((mapController.getSize() / 2), (mapController.getSize() / 2));
             System.out.println("X: " + heroController.getX() + " Y: " + heroController.getY());
+            System.out.println("HP: " + hero.getHitPoints());
         }
     }
 
