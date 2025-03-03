@@ -14,8 +14,8 @@ public class HeroController {
     // private final VillainController villainController;
     private final GameController gameController;
     private Hero hero;
-    private int x;
-    private int y;
+    // private int x;
+    // private int y;
     Random random = new Random();
 
     public HeroController(ConsoleView consoleView, MapController mapController, GameController gameController) {
@@ -25,8 +25,8 @@ public class HeroController {
         // this.villainController = villainController;
         // this.x = posX;
         // this.y = posY;
-        this.x = mapController.getSize() / 2;
-        this.y = mapController.getSize() / 2;
+        // this.x = mapController.getSize() / 2;
+        // this.y = mapController.getSize() / 2;
     }
 
     public Hero HeroCreator() {
@@ -48,25 +48,28 @@ public class HeroController {
                 consoleView.displayHeroCreation("Warrior", name);
                 break;
         }
-        mapController.setCell(x, y, 2);
+        hero.setX(mapController.getSize() / 2);
+        hero.setY(mapController.getSize() / 2);
+        mapController.setCell(hero.getX(), hero.getY(), 2);
         return hero;
     }
 
     public void moveHero(int nx, int ny) {
-        int result = mapController.isValidMove((x + nx), (y + ny));
+        int result = mapController.isValidMove((hero.getX() + nx), (hero.getY() + ny));
         // Random random = new Random();
         switch (result) {
             case 0:
-                mapController.updateMap(x, y, 0);
-                x = x + nx;
-                y = y + ny;
-                mapController.updateMap(x, y, 2);
+                mapController.updateMap(hero.getX(), hero.getY(), 0);
+                updateHeroPosition((hero.getX() + nx), (hero.getY() + ny));
+                // x = x + nx;
+                // y = y + ny;
+                mapController.updateMap(hero.getX(), hero.getY(), 2);
                 break;
             case 1:
                 int choose = consoleView.displayFightorRun();
                 if (choose == 1)
                 {
-                    gameController.handleBattle(hero, (x + nx), (y + ny));
+                    gameController.handleBattle(hero, (hero.getX() + nx), (hero.getY() + ny));
                 } else {
                     // int luck = random.nextInt(2);
                     int luck = ThreadLocalRandom.current().nextInt(2);
@@ -75,7 +78,7 @@ public class HeroController {
                         runAway();
                     } else {
                         System.out.println("Bad luck, the villain don't let you run and you have to fight!!");
-                        gameController.handleBattle(hero, (x + nx), (y + ny));
+                        gameController.handleBattle(hero, (hero.getX() + nx), (hero.getY() + ny));
                     }
                 }
                     // runAway();
@@ -137,25 +140,28 @@ public class HeroController {
             newX = random.nextInt(size);
             newY = random.nextInt(size);
         } while (mapController.getCell(newX, newY) != 0);
-        mapController.setCell(x, y, 0);
+        mapController.setCell(hero.getX(), hero.getY(), 0);
         mapController.setCell(newX, newY, 2);
-        x = newX;
-        y = newY;
+        updateHeroPosition(newX, newY);
+        // x = newX;
+        // y = newY;
         consoleView.runMsg();	
     }
 
     public void updateHeroPosition(int newX, int newY) {
-        x = newX;
-        y = newY;
+        hero.setX(newX);
+        hero.setY(newY);
+        // x = newX;
+        // y = newY;
     }
 
-    public int getX() {
-        return x;
-    }
+    // public int getX() {
+    //     return x;
+    // }
 
-    public int getY() {
-        return y;
-    }
+    // public int getY() {
+    //     return y;
+    // }
 
     public Hero getHero() {
         return hero;

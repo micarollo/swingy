@@ -88,7 +88,7 @@ public class GameController {
             {
                 System.out.println("You win");
                 System.out.println("<<--------------END------------->");
-                mapController.setCell(heroController.getX(), heroController.getY(), 0);
+                mapController.setCell(hero.getX(), hero.getY(), 0);
                 mapController.setCell(newX, newY, 2);
                 heroController.updateHeroPosition(newX, newY);
                 gainHeroExperience(hero, villain);
@@ -118,7 +118,7 @@ public class GameController {
         if (levelUp) {
             mapController.changeLevel(hero.getLevel());
             heroController.updateHeroPosition((mapController.getSize() / 2), (mapController.getSize() / 2));
-            System.out.println("X: " + heroController.getX() + " Y: " + heroController.getY());
+            System.out.println("X: " + hero.getX() + " Y: " + hero.getY());
             System.out.println("HP: " + hero.getHitPoints());
         }
     }

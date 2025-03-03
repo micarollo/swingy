@@ -61,8 +61,8 @@ public class DbManager{
             statement.setInt(5, hero.getAttack());
             statement.setInt(6, hero.getDefense());
             statement.setInt(7, hero.getHitPoints());
-            statement.setInt(8, 7);
-            statement.setInt(9, 7);
+            statement.setInt(8, hero.getX());
+            statement.setInt(9, hero.getY());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -93,6 +93,6 @@ public class DbManager{
     }
 
     public void updateHero() {
-        
+
     }
 }

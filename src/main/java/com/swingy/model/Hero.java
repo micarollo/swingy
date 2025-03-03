@@ -5,6 +5,8 @@ import java.util.Random;
 public abstract class Hero extends Character {
     private int experience;
     private int startingHP;
+    private int x;
+    private int y;
 
     public Hero(String name, int level, int attack, int defense, int hitPoints) {
         super(name, level, attack, defense, hitPoints);
@@ -32,8 +34,18 @@ public abstract class Hero extends Character {
         return false;
     }
 
+    public void setX(int value) {
+        x = value;
+    }
+
+    public void setY(int value) {
+        y = value;
+    }
+
     public int getExperience() { return experience; }
     public int getStartingHP() { return startingHP; }
+    public int getX() { return x; }
+    public int getY() { return y; }
     public abstract String getHeroClass();
 }
 
