@@ -2,11 +2,13 @@ package com.swingy.controller;
 
 import java.util.Random;
 
+import com.swingy.DbManager;
 import com.swingy.model.Hero;
 import com.swingy.model.Villain;
 import com.swingy.view.ConsoleView;
 
 public class GameController {
+    private final DbManager dbManager;
     private final MapController mapController;
     private final ConsoleView consoleView;
     private final HeroController heroController;
@@ -14,6 +16,7 @@ public class GameController {
     private Hero hero;
 
     public GameController() {
+        this.dbManager = new DbManager();
         this.consoleView = new ConsoleView();
         this.mapController = new MapController();
         mapController.createMap(1);
@@ -24,7 +27,9 @@ public class GameController {
 
     public void startGame() {
         // int size = mapController.getSize();
+        dbManager.displayHeroes();
         hero = heroController.HeroCreator();
+        dbManager.saveHero(hero);
         consoleView.displayHeroStats(hero);
         consoleView.displayMap(mapController.getMap());
         gameLoop();
