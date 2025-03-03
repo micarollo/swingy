@@ -4,13 +4,13 @@ import java.util.Random;
 
 public abstract class Hero extends Character {
     private int experience;
-    private int startingHP;
+    private final int startingHP;
     private int x;
     private int y;
 
-    public Hero(String name, int level, int attack, int defense, int hitPoints) {
+    public Hero(String name, int level, int attack, int defense, int hitPoints, int experience) {
         super(name, level, attack, defense, hitPoints);
-        this.experience = 0;
+        this.experience = experience;
         this.startingHP = hitPoints;
     }
 

@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.swingy.model.Hero;
+import com.swingy.model.Warrior;
+import com.swingy.model.Mage;
 
 public class DbManager{
     private Connection conn;
@@ -92,7 +94,86 @@ public class DbManager{
         }
     }
 
-    public void updateHero() {
+    public void saveOrUpdateHero(Hero hero) {
+        String checkHeroSQL = "SELECT COUNT(*) FROM heroes WHERE name = ?";
+        String updateHeroSQL = "UPDATE heroes SET level = ?, experience = ?, attack = ?, defense = ?, hitPoints = ?, x = ?, y = ? WHERE name = ?";
+        String insertHeroSQL = "INSERT INTO heroes (name, class, level, experience, attack, defense, hitPoints, x, y) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+        try (PreparedStatement checkStmt = conn.prepareStatement(checkHeroSQL)) {
+            checkStmt.setString(1, hero.getName());
+            ResultSet rs = checkStmt.executeQuery();
+            rs.next();
+            
+            if (rs.getInt(1) > 0) {
+                // Si el héroe existe, hacer un UPDATE
+                try (PreparedStatement updateStmt = conn.prepareStatement(updateHeroSQL)) {
+                    updateStmt.setInt(1, hero.getLevel());
+                    updateStmt.setInt(2, hero.getExperience());
+                    updateStmt.setInt(3, hero.getAttack());
+                    updateStmt.setInt(4, hero.getDefense());
+                    updateStmt.setInt(5, hero.getHitPoints());
+                    updateStmt.setInt(6, hero.getX());
+                    updateStmt.setInt(7, hero.getY());
+                    updateStmt.setString(8, hero.getName());
+                    updateStmt.executeUpdate();
+                }
+            } else {
+                // Si el héroe no existe, hacer un INSERT
+                try (PreparedStatement insertStmt = conn.prepareStatement(insertHeroSQL)) {
+                    insertStmt.setString(1, hero.getName());
+                    insertStmt.setString(2, hero.getHeroClass());
+                    insertStmt.setInt(3, hero.getLevel());
+                    insertStmt.setInt(4, hero.getExperience());
+                    insertStmt.setInt(5, hero.getAttack());
+                    insertStmt.setInt(6, hero.getDefense());
+                    insertStmt.setInt(7, hero.getHitPoints());
+                    insertStmt.setInt(8, hero.getX());
+                    insertStmt.setInt(9, hero.getY());
+                    insertStmt.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
+    public Hero getHeroById(int id) {
+        String sql = "SELECT * FROM heroes WHERE id = ?";
+        Hero hero = null;
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                // Recupera los datos del héroe
+                String name = rs.getString("name");
+                String heroClass = rs.getString("class");
+                int level = rs.getInt("level");
+                int experience = rs.getInt("experience");
+                int attack = rs.getInt("attack");
+                int defense = rs.getInt("defense");
+                int hitPoints = rs.getInt("hitPoints");
+                int x = rs.getInt("x");
+                int y = rs.getInt("y");
+
+                // Crea el objeto Hero con los datos obtenidos
+                switch (heroClass.toLowerCase()) {
+                    case "warrior":
+                        hero = new Warrior(name, level, attack, defense, hitPoints, experience);
+                        hero.setX(x);
+                        hero.setY(y);
+                    case "mage":
+                        hero = new Mage(name, level, attack, defense, hitPoints, experience);
+                        hero.setX(x);
+                        hero.setY(y);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return hero;
+    }
+
 }

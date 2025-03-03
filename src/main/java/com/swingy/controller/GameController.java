@@ -92,6 +92,7 @@ public class GameController {
                 mapController.setCell(newX, newY, 2);
                 heroController.updateHeroPosition(newX, newY);
                 gainHeroExperience(hero, villain);
+                dbManager.saveOrUpdateHero(hero);
                 return;
             }
             if (random.nextDouble() >= heroDodge) {
