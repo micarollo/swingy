@@ -50,7 +50,7 @@ public class HeroController {
         }
         hero.setX(mapController.getSize() / 2);
         hero.setY(mapController.getSize() / 2);
-        mapController.setCell(hero.getX(), hero.getY(), 2);
+        // mapController.setCell(hero.getX(), hero.getY(), 2);
         return hero;
     }
 
@@ -165,5 +165,9 @@ public class HeroController {
 
     public Hero getHero() {
         return hero;
+    }
+
+    public void setHero(Hero hero) {
+        this.hero = hero;
     }
 }

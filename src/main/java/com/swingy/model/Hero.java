@@ -8,10 +8,12 @@ public abstract class Hero extends Character {
     private int x;
     private int y;
 
-    public Hero(String name, int level, int attack, int defense, int hitPoints, int experience) {
+    public Hero(String name, int level, int attack, int defense, int hitPoints, int experience, int x, int y) {
         super(name, level, attack, defense, hitPoints);
         this.experience = experience;
         this.startingHP = hitPoints;
+        this.x = x;
+        this.y = y;
     }
 
     public boolean gainExperience(int xp) {

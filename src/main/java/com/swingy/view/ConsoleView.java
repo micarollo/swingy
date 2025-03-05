@@ -9,8 +9,11 @@ import com.swingy.model.Villain;
 public class ConsoleView {
     Scanner scanner = new Scanner(System.in);
     
-    public void displayWelcomeMessage() {
+    public int displayWelcomeMessage() {
         System.out.println("Welcome to Swingy RPG!");
+        System.out.println("1. Play with an existing Hero");
+        System.out.println("2. Create a new one");
+        return scanner.nextInt();
     }
 
     public int chooseHeroClass() {

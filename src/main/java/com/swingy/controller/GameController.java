@@ -1,6 +1,7 @@
 package com.swingy.controller;
 
 import java.util.Random;
+import java.util.Scanner;
 
 import com.swingy.DbManager;
 import com.swingy.model.Hero;
@@ -26,10 +27,23 @@ public class GameController {
     }
 
     public void startGame() {
+        Scanner scan = new Scanner(System.in);
         // int size = mapController.getSize();
-        dbManager.displayHeroes();
-        hero = heroController.HeroCreator();
-        dbManager.saveHero(hero);
+        int choice = consoleView.displayWelcomeMessage();
+        if (choice == 1) {
+            dbManager.displayHeroes();
+            int id = scan.nextInt();
+            hero = dbManager.getHeroById(id);
+            heroController.setHero(hero);
+            System.out.println("x: " + hero.getX());
+            mapController.setCell(mapController.getSize() / 2, mapController.getSize() / 2, 0);
+            mapController.setCell(hero.getX(), hero.getY(), 2);
+            System.out.println(hero);
+        }
+        else {
+            hero = heroController.HeroCreator();
+            dbManager.saveHero(hero);
+        }
         consoleView.displayHeroStats(hero);
         consoleView.displayMap(mapController.getMap());
         gameLoop();

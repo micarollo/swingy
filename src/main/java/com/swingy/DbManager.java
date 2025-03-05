@@ -160,13 +160,9 @@ public class DbManager{
                 // Crea el objeto Hero con los datos obtenidos
                 switch (heroClass.toLowerCase()) {
                     case "warrior":
-                        hero = new Warrior(name, level, attack, defense, hitPoints, experience);
-                        hero.setX(x);
-                        hero.setY(y);
+                        hero = new Warrior(name, level, attack, defense, hitPoints, experience, x, y);
                     case "mage":
-                        hero = new Mage(name, level, attack, defense, hitPoints, experience);
-                        hero.setX(x);
-                        hero.setY(y);
+                        hero = new Mage(name, level, attack, defense, hitPoints, experience, x, y);
                 }
             }
         } catch (SQLException e) {
