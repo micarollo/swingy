@@ -25,7 +25,7 @@ public abstract class Character {
     }
 
     public void takeDamage(int damage) {
-        hitPoints -= Math.max(0, damage - defense);
+        hitPoints -= (damage - defense);
     }
 
     public boolean isAlive() {
