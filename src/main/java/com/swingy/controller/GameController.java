@@ -93,24 +93,28 @@ public class GameController {
         Villain villain = villainController.villainCreator(hero.getLevel());
         double heroDodge = 0.2;
         double villainDodge = 0.1;
+        consoleView.villainAppears(villain);
         System.out.println("<<-------------FIGHTING------------>>");
-        consoleView.displayHeroBattleStats(hero);
-        consoleView.displayVillainStats(villain);
+        // consoleView.displayHeroBattleStats(hero);
+        // consoleView.displayVillainStats(villain);
         while (hero.isAlive() && villain.isAlive()) {
             try {
                 if (random.nextDouble() >= villainDodge) {
                     int heroDamage = hero.getAttack() + random.nextInt(5);
                     villain.takeDamage(heroDamage);
-                    System.out.println("VILLAIN HP: " + villain.getHitPoints());
+                    System.out.println("hero attacks! (Villain HP: " + villain.getHitPoints() + ")");
+                    System.out.println();
                     Thread.sleep(500);
                 } else {
                     System.out.println("Villain dodged the attack!");
+                    System.out.println();
                     Thread.sleep(300);
                 }
                 if (!villain.isAlive())
                 {
                     System.out.println("You win");
                     System.out.println("<<--------------END------------->");
+                    System.out.println();
                     handleDropArtifact(villain.getLevel());
                     mapController.setCell(hero.getX(), hero.getY(), 0);
                     mapController.setCell(newX, newY, 2);
@@ -123,10 +127,12 @@ public class GameController {
                 if (random.nextDouble() >= heroDodge) {
                     int villainDamage = villain.getAttack() + random.nextInt(3);
                     hero.takeDamage(villainDamage);
-                    System.out.println("HERO HP: " + hero.getHitPoints());
+                    System.out.println("Villain attacks! (Hero HP: " + hero.getHitPoints() + ")");
+                    System.out.println();
                     Thread.sleep(500);
                 } else {
                     System.out.println("Hero dodged the attack!");
+                    System.out.println();
                     Thread.sleep(300);
                 }
                 if (!hero.isAlive())
@@ -147,6 +153,7 @@ public class GameController {
         Random random = new Random();
         if (random.nextDouble() < 0.4) {
             Artifact artifact = artifactGenerator.generateArtifact(villainLevel);
+            consoleView.displayHeroStats(hero);
             int res = consoleView.artifactMsg(artifact);
             if (res == 1) {
                 hero.equipArtifact(artifact);

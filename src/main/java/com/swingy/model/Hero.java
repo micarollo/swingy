@@ -48,6 +48,23 @@ public abstract class Hero extends Character {
     }
 
     public void equipArtifact(Artifact artifact) {
+        switch (artifact.getType()) {
+            case "weapon":
+                if (this.weapon != null) {
+                    attack -= weapon.getBoost();
+                    break;
+                }
+            case "armor":
+                if (this.armor != null) {
+                    defense -= armor.getBoost();
+                    break;
+                }
+            case "helm":
+                if (this.helm != null) {
+                    hitPoints -= helm.getBoost();
+                    break;
+                }
+        }
         if (artifact instanceof Weapon newWeapon) {
             this.weapon = newWeapon;
             attack = getAttack() + weapon.getBoost();

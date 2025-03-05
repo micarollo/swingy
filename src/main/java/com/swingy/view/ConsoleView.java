@@ -168,6 +168,11 @@ public class ConsoleView {
         System.out.println("-------------------------------");
     }
 
+    public void villainAppears(Villain villain) {
+        System.out.println();
+        System.out.println("-------A " + villain.getName() + " appears-------");
+    }
+
     public void displayHeroBattleStats(Hero hero) {
         System.out.println("-------------------------------");
         System.out.println("HERO STATS");
@@ -184,6 +189,7 @@ public class ConsoleView {
         System.out.println("1. Keep it");
         System.out.println("2. Leave it");
         choice = scanner.nextInt();
+        scanner.nextLine();
         return choice;
     }
 }
