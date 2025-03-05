@@ -93,32 +93,45 @@ public class GameController {
         consoleView.displayHeroBattleStats(hero);
         consoleView.displayVillainStats(villain);
         while (hero.isAlive() && villain.isAlive()) {
-            if (random.nextDouble() >= villainDodge) {
-                int heroDamage = hero.getAttack() + random.nextInt(5);
-                villain.takeDamage(heroDamage);
-                System.out.println("VILLAIN HP: " + villain.getHitPoints());
-            } else 
-                System.out.println("Villain dodged the attack!");
-            if (!villain.isAlive())
-            {
-                System.out.println("You win");
-                System.out.println("<<--------------END------------->");
-                mapController.setCell(hero.getX(), hero.getY(), 0);
-                mapController.setCell(newX, newY, 2);
-                heroController.updateHeroPosition(newX, newY);
-                gainHeroExperience(hero, villain);
-                dbManager.saveOrUpdateHero(hero);
-                return;
-            }
-            if (random.nextDouble() >= heroDodge) {
-                int villainDamage = villain.getAttack() + random.nextInt(3);
-                hero.takeDamage(villainDamage);
-                System.out.println("HERO HP: " + hero.getHitPoints());
-            } else 
-                System.out.println("Hero dodged the attack!");
-            if (!hero.isAlive())
-            {
-                consoleView.gameOver();
+            try {
+                if (random.nextDouble() >= villainDodge) {
+                    int heroDamage = hero.getAttack() + random.nextInt(5);
+                    villain.takeDamage(heroDamage);
+                    System.out.println("VILLAIN HP: " + villain.getHitPoints());
+                    Thread.sleep(500);
+                } else {
+                    System.out.println("Villain dodged the attack!");
+                    Thread.sleep(300);
+                }
+                if (!villain.isAlive())
+                {
+                    System.out.println("You win");
+                    System.out.println("<<--------------END------------->");
+                    mapController.setCell(hero.getX(), hero.getY(), 0);
+                    mapController.setCell(newX, newY, 2);
+                    heroController.updateHeroPosition(newX, newY);
+                    gainHeroExperience(hero, villain);
+                    dbManager.saveOrUpdateHero(hero);
+                    Thread.sleep(1000);
+                    return;
+                }
+                if (random.nextDouble() >= heroDodge) {
+                    int villainDamage = villain.getAttack() + random.nextInt(3);
+                    hero.takeDamage(villainDamage);
+                    System.out.println("HERO HP: " + hero.getHitPoints());
+                    Thread.sleep(500);
+                } else {
+                    System.out.println("Hero dodged the attack!");
+                    Thread.sleep(300);
+                }
+                if (!hero.isAlive())
+                {
+                    consoleView.gameOver();
+                    Thread.sleep(1000);
+
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }   
 	}
