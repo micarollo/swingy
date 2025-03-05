@@ -129,6 +129,7 @@ public class GameController {
                 }
                 if (!hero.isAlive())
                 {
+                    dbManager.deleteHero(hero.getName());
                     consoleView.gameOver();
                     Thread.sleep(1000);
 

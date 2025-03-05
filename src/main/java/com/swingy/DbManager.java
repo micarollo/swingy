@@ -71,6 +71,16 @@ public class DbManager{
         }
     }
 
+    public void deleteHero(String name) {
+        try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM Heroes WHERE name = ?")) {
+            stmt.setString(1, name);
+            stmt.executeUpdate();
+            System.out.println("Hero deleted!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void displayHeroes() {
         try (Statement statement = conn.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM heroes")) {
