@@ -144,9 +144,11 @@ public class GameController {
         Random random = new Random();
         if (random.nextDouble() < 0.4) {
             Artifact artifact = artifactGenerator.generateArtifact(villainLevel);
-            hero.equipArtifact(artifact);
-            System.out.println("New artifact: " + artifact.getType());
-            consoleView.displayHeroStats(hero);
+            int res = consoleView.artifactMsg(artifact);
+            if (res == 1) {
+                hero.equipArtifact(artifact);
+                consoleView.displayHeroStats(hero);
+            }
         }
         else
             System.out.println("bad luck: the villain didnt drop any artifact!!");

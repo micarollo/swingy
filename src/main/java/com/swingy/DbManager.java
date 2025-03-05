@@ -174,8 +174,10 @@ public class DbManager{
                 switch (heroClass.toLowerCase()) {
                     case "warrior":
                         hero = new Warrior(name, level, attack, defense, hitPoints, experience, x, y);
+                        break;
                     case "mage":
                         hero = new Mage(name, level, attack, defense, hitPoints, experience, x, y);
+                        break;
                 }
             }
         } catch (SQLException e) {

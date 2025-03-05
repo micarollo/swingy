@@ -2,6 +2,7 @@ package com.swingy.view;
 
 import java.util.Scanner;
 
+import com.swingy.model.Artifact;
 import com.swingy.model.Hero;
 import com.swingy.model.Map;
 import com.swingy.model.Villain;
@@ -144,5 +145,15 @@ public class ConsoleView {
         System.out.print("Attack: " + hero.getAttack() + "| ");
         System.out.println("Defense: " + hero.getDefense());
         System.out.println("-------------------------------");
+    }
+
+    public int artifactMsg(Artifact artifact) {
+        int choice;
+        System.out.println("New artifact: " + artifact.getType() + " | Boost: " + artifact.getBoost());
+        System.out.println("What do you want to do:");
+        System.out.println("1. Keep it");
+        System.out.println("2. Leave it");
+        choice = scanner.nextInt();
+        return choice;
     }
 }
