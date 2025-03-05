@@ -23,7 +23,7 @@ public class GameController {
         mapController.createMap(1);
         this.villainController = new VillainController();
         // this.heroController = new HeroController(consoleView, mapController, villainController);
-        this.heroController = new HeroController(consoleView, mapController, this);
+        this.heroController = new HeroController(consoleView, mapController, this, dbManager);
     }
 
     public void startGame() {
@@ -36,8 +36,9 @@ public class GameController {
             hero = dbManager.getHeroById(id);
             heroController.setHero(hero);
             System.out.println("x: " + hero.getX());
-            mapController.setCell(mapController.getSize() / 2, mapController.getSize() / 2, 0);
-            mapController.setCell(hero.getX(), hero.getY(), 2);
+            mapController.createMapfromDb(hero.getLevel(), hero.getX(), hero.getY());
+            // mapController.setCell(mapController.getSize() / 2, mapController.getSize() / 2, 0);
+            // mapController.setCell(hero.getX(), hero.getY(), 2);
             System.out.println(hero);
         }
         else {

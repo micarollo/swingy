@@ -13,7 +13,9 @@ public class MapController {
         this.map = new Map(level);
         fillGridMap();
     }
-
+// idea: fill grid map solo 0
+//fill villains
+//place hero o algo asi
     public void fillGridMap() {
         Random random = new Random();
         int size = map.getSize();
@@ -23,6 +25,7 @@ public class MapController {
                 map.setCell(i, j, 0);
             }
         }
+        placeHero();
         int placedVillains = 0;
         while (placedVillains < maxVillians) {
             int x = random.nextInt(size);
@@ -33,7 +36,6 @@ public class MapController {
                 placedVillains++;
             }
         }
-        placeHero();
     }
 
     private void placeHero() {
@@ -45,6 +47,30 @@ public class MapController {
 
     public void changeLevel(int level) {
         createMap(level);
+    }
+
+//chage this!!
+    public void createMapfromDb(int level, int heroX, int heroY) {
+        this.map = new Map(level);
+        Random random = new Random();
+        int size = map.getSize();
+        int maxVillians = map.getMaxVillains();
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                map.setCell(i, j, 0);
+            }
+        }
+        map.setCell(heroX, heroY, 2);
+        int placedVillains = 0;
+        while (placedVillains < maxVillians) {
+            int x = random.nextInt(size);
+            int y = random.nextInt(size);
+
+            if (map.getCell(x, y) == 0) {
+                map.setCell(x, y, 1);
+                placedVillains++;
+            }
+        }
     }
 
     public int isValidMove(int nextX, int nextY) {

@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.swingy.model.Hero;
-import com.swingy.model.Warrior;
 import com.swingy.model.Mage;
+import com.swingy.model.Warrior;
 
 public class DbManager{
     private Connection conn;
@@ -135,6 +135,19 @@ public class DbManager{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void updateHeroPos(int newX, int newY, String name) {
+        String updateHeroSQL = "UPDATE heroes SET x = ?, y = ? WHERE name = ?";
+        try (PreparedStatement updateStmt = conn.prepareStatement(updateHeroSQL)) {
+            updateStmt.setInt(1, newX);
+            updateStmt.setInt(2, newY);
+            updateStmt.setString(3, name);
+            updateStmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public Hero getHeroById(int id) {

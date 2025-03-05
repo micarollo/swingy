@@ -3,6 +3,7 @@ package com.swingy.controller;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.swingy.DbManager;
 import com.swingy.model.Hero;
 import com.swingy.model.Mage;
 import com.swingy.model.Warrior;
@@ -13,15 +14,17 @@ public class HeroController {
     private final MapController mapController;
     // private final VillainController villainController;
     private final GameController gameController;
+    private final DbManager dbManager;
     private Hero hero;
     // private int x;
     // private int y;
     Random random = new Random();
 
-    public HeroController(ConsoleView consoleView, MapController mapController, GameController gameController) {
+    public HeroController(ConsoleView consoleView, MapController mapController, GameController gameController, DbManager dbManager) {
         this.consoleView = consoleView;
         this.mapController = mapController;
         this.gameController = gameController;
+        this.dbManager = dbManager;
         // this.villainController = villainController;
         // this.x = posX;
         // this.y = posY;
@@ -61,9 +64,8 @@ public class HeroController {
             case 0:
                 mapController.updateMap(hero.getX(), hero.getY(), 0);
                 updateHeroPosition((hero.getX() + nx), (hero.getY() + ny));
-                // x = x + nx;
-                // y = y + ny;
                 mapController.updateMap(hero.getX(), hero.getY(), 2);
+                dbManager.updateHeroPos(hero.getX(), hero.getY(), hero.getName());
                 break;
             case 1:
                 int choose = consoleView.displayFightorRun();
@@ -81,14 +83,6 @@ public class HeroController {
                         gameController.handleBattle(hero, (hero.getX() + nx), (hero.getY() + ny));
                     }
                 }
-                    // runAway();
-                // if (handleBattle(choose, (x + nx), (y + ny))) {
-                //     mapController.updateMap(x, y, 0);
-                //     x = x + nx;
-                //     y = y + ny;
-                //     mapController.updateMap(x, y, 2);
-                // }
-                // break;
             case -1:
                 //displayOutOfMap();
                 break;
@@ -143,6 +137,8 @@ public class HeroController {
         mapController.setCell(hero.getX(), hero.getY(), 0);
         mapController.setCell(newX, newY, 2);
         updateHeroPosition(newX, newY);
+        dbManager.updateHeroPos(newX, newY, hero.getName());
+        
         // x = newX;
         // y = newY;
         consoleView.runMsg();	
