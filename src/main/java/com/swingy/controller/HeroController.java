@@ -88,43 +88,6 @@ public class HeroController {
                 break;
         }
     }
-
-    // public boolean handleBattle(int choose, int villainX, int villainY) {
-    //     Random random = new Random();
-    //     if (choose == 1) {
-    //         Villain villain = villainController.villainCreator(hero.getLevel());
-    //         double heroDodge = 0.2;
-    //         double villainDodge = 0.1;
-    //         System.out.println("<<-----FIGHTING----->>");
-    //         while (hero.isAlive() && villain.isAlive()) {
-    //             if (random.nextDouble() >= villainDodge) {
-    //                 int heroDamage = hero.getAttack() + random.nextInt(5);
-    //                 villain.takeDamage(heroDamage);
-    //                 System.out.println("VILLAIN HP: " + villain.getHitPoints());
-    //             } else 
-    //                 System.out.println("Villain dodged the attack!");
-    //             if (!villain.isAlive())
-    //             {
-    //                 System.out.println("You win");
-    //                 return true;
-    //             }
-    //             if (random.nextDouble() >= heroDodge) {
-    //                 int villainDamage = villain.getAttack() + random.nextInt(3);
-    //                 hero.takeDamage(villainDamage);
-    //                 System.out.println("HERO HP: " + hero.getHitPoints());
-    //             } else 
-    //                 System.out.println("Hero dodged the attack!");
-    //             if (!hero.isAlive())
-    //             {
-    //                 consoleView.gameOver();
-    //                 return false;
-    //             }
-    //         }
-    //     }
-    //     else
-    //         runAway();
-    //     return false;
-	// }
 		
     public void runAway() {
         // Random random = new Random();

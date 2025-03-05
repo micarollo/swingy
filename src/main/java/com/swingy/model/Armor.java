@@ -1,7 +1,7 @@
 package com.swingy.model;
 
 public class Armor extends Artifact {
-    public Armor(String type, int boost) {
+    public Armor(int boost) {
         super("armor", boost);
     }
 }

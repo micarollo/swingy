@@ -4,6 +4,8 @@ import java.util.Random;
 import java.util.Scanner;
 
 import com.swingy.DbManager;
+import com.swingy.model.Artifact;
+import com.swingy.model.ArtifactGenerator;
 import com.swingy.model.Hero;
 import com.swingy.model.Villain;
 import com.swingy.view.ConsoleView;
@@ -107,6 +109,7 @@ public class GameController {
                 {
                     System.out.println("You win");
                     System.out.println("<<--------------END------------->");
+                    handleDropArtifact(villain.getLevel());
                     mapController.setCell(hero.getX(), hero.getY(), 0);
                     mapController.setCell(newX, newY, 2);
                     heroController.updateHeroPosition(newX, newY);
@@ -135,6 +138,19 @@ public class GameController {
             }
         }   
 	}
+
+    public void handleDropArtifact(int villainLevel) {
+        ArtifactGenerator artifactGenerator = new ArtifactGenerator();
+        Random random = new Random();
+        if (random.nextDouble() < 0.4) {
+            Artifact artifact = artifactGenerator.generateArtifact(villainLevel);
+            hero.equipArtifact(artifact);
+            System.out.println("New artifact: " + artifact.getType());
+            consoleView.displayHeroStats(hero);
+        }
+        else
+            System.out.println("bad luck: the villain didnt drop any artifact!!");
+    }
 
     public void gainHeroExperience(Hero hero, Villain villain) {
         int power = villain.getPower();

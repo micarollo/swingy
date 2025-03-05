@@ -7,6 +7,9 @@ public abstract class Hero extends Character {
     private final int startingHP;
     private int x;
     private int y;
+    private Helm helm;
+    private Armor armor;
+    private Weapon weapon;
 
     public Hero(String name, int level, int attack, int defense, int hitPoints, int experience, int x, int y) {
         super(name, level, attack, defense, hitPoints);
@@ -42,6 +45,19 @@ public abstract class Hero extends Character {
 
     public void setY(int value) {
         y = value;
+    }
+
+    public void equipArtifact(Artifact artifact) {
+        if (artifact instanceof Weapon newWeapon) {
+            this.weapon = newWeapon;
+            attack = getAttack() + weapon.getBoost();
+        } else if (artifact instanceof Armor newArmor) {
+            this.armor = newArmor;
+            defense = getDefense() + armor.getBoost();
+        } else if (artifact instanceof Helm newHelm) {
+            this.helm = newHelm;
+            hitPoints = getHitPoints() + helm.getBoost();
+        }
     }
 
     public int getExperience() { return experience; }
