@@ -14,7 +14,24 @@ public class ConsoleView {
         System.out.println("Welcome to Swingy RPG!");
         System.out.println("1. Play with an existing Hero");
         System.out.println("2. Create a new one");
-        return scanner.nextInt();
+        int choice = 0;
+        boolean valid = false;
+        while (!valid) {
+            try {
+                choice = scanner.nextInt();
+                scanner.nextLine();
+                if (choice == 1 || choice == 2) {
+                    valid = true;
+                } else {
+                    System.out.println("Invalid choice. Please enter 1 or 2.");
+                }
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+                scanner.nextLine();
+            }
+            
+        }
+        return choice;
     }
 
     public int chooseHeroClass() {
@@ -48,7 +65,8 @@ public class ConsoleView {
     }
 
     public int displayMenu() {
-        int choice;
+        // int choice;
+        String input;
         System.out.println("\nWhat do you want to do now?");
         System.out.println("1. Move North");
         System.out.println("2. Move South");
@@ -56,9 +74,21 @@ public class ConsoleView {
         System.out.println("4. Move West");
         System.out.println("5. View Hero Stats");
         System.out.println("6. Exit Game");
-        choice = scanner.nextInt();
-        scanner.nextLine();
-        return choice;
+        // choice = scanner.nextInt();
+        // scanner.nextLine();
+        input = scanner.nextLine();
+        try {
+            int option = Integer.parseInt(input);
+            if (option >= 1 && option <= 6) {
+                return option;
+            } else {
+                System.out.println("Error: enter a number between 1 and 6");
+                return -1;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Error: enter a valid number.");
+            return -1; // Valor de error
+        }
     }
 
     public int displayFightorRun() {

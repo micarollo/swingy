@@ -55,8 +55,10 @@ public class GameController {
     public void gameLoop() {
         while (true) { 
             int input = consoleView.displayMenu();
-            handleInput(input);
-            consoleView.displayMap(mapController.getMap());
+            if (input != -1) {
+                handleInput(input);
+                consoleView.displayMap(mapController.getMap());
+            }
         }
     }
 
@@ -81,7 +83,7 @@ public class GameController {
                 consoleView.displayExitMessage();
                 exitGame();
                 break;
-            default:
+            default:                
                 throw new AssertionError();
         }
     }
