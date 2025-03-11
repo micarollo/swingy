@@ -33,7 +33,6 @@ public class GameController {
 
     public void startGame() {
         Scanner scan = new Scanner(System.in);
-        // int size = mapController.getSize();
         int choice = consoleView.displayWelcomeMessage();
         if (choice == 1) {
             dbManager.displayHeroes();
@@ -43,9 +42,8 @@ public class GameController {
             //check
             setArtifactsFromDB(hero);
             System.out.println("x: " + hero.getX());
+            //hacer un if para obtener la cant de villanos y crear el mapa con esa cantidad
             mapController.createMapfromDb(hero.getLevel(), hero.getX(), hero.getY());
-            // mapController.setCell(mapController.getSize() / 2, mapController.getSize() / 2, 0);
-            // mapController.setCell(hero.getX(), hero.getY(), 2);
             System.out.println(hero);
         }
         else {
@@ -100,8 +98,6 @@ public class GameController {
         double villainDodge = 0.1;
         consoleView.villainAppears(villain);
         System.out.println("<<-------------FIGHTING------------>>");
-        // consoleView.displayHeroBattleStats(hero);
-        // consoleView.displayVillainStats(villain);
         while (hero.isAlive() && villain.isAlive()) {
             try {
                 if (random.nextDouble() >= villainDodge) {
@@ -120,6 +116,8 @@ public class GameController {
                     System.out.println("\uD83D\uDCAA You win");
                     System.out.println("<<--------------END------------->");
                     System.out.println();
+                    mapController.getMap().killVillain();
+                    dbManager.updateVillains(mapController.getMap().getMaxVillains(), hero.getName());
                     handleDropArtifact(villain.getLevel());
                     mapController.setCell(hero.getX(), hero.getY(), 0);
                     mapController.setCell(newX, newY, 2);

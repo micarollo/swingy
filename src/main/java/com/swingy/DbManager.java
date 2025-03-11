@@ -1,6 +1,7 @@
 package com.swingy;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -106,7 +107,8 @@ public class DbManager{
                         ", Armor: " + resultSet.getInt("armorBoost") +
                         ", Helm: " + resultSet.getInt("helmBoost") +
                         ", x: " + resultSet.getInt("x") +
-                        ", y: " + resultSet.getInt("y")
+                        ", y: " + resultSet.getInt("y") +
+                        ", villains: " + resultSet.getInt("Villains")
                 );
             }
         } catch (SQLException e) {
@@ -245,6 +247,35 @@ public class DbManager{
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void updateVillains(int n, String heroName) {
+        try {
+            // Verificar si la columna 'villanos' existe
+            DatabaseMetaData metaData = conn.getMetaData();
+            ResultSet columns = metaData.getColumns(null, null, "heroes", "villains");
+
+            // Si la columna no existe, la creamos
+            if (!columns.next()) {
+                String alterTableQuery = "ALTER TABLE heroes ADD COLUMN villains INT";
+                try (Statement stmt = conn.createStatement()) {
+                    stmt.executeUpdate(alterTableQuery);
+                    System.out.println("Columna 'villanos' creada.");
+                }
+            }
+
+            // Insertar el número en la columna 'villanos'
+            String updateQuery = "UPDATE heroes SET villains = ? WHERE name = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(updateQuery)) {
+                pstmt.setInt(1, n);
+                pstmt.setString(2, heroName);
+                pstmt.executeUpdate();
+                System.out.println("Número " + n + " guardado en la columna 'villanos'.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void dropHeroesTable() {

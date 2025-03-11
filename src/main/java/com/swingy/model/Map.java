@@ -3,7 +3,7 @@ package com.swingy.model;
 public class Map {
     private final int[][] gridMap;
     private final int size;
-    private final int maxVillians;
+    private int maxVillians;
 
     public Map(int level) {
         this.size = calculateMap(level);
@@ -36,5 +36,9 @@ public class Map {
 
     public int getMaxVillains() {
         return maxVillians;
+    }
+
+    public void killVillain() {
+        this.maxVillians--;
     }
 }
