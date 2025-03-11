@@ -4,10 +4,13 @@ import java.util.Random;
 import java.util.Scanner;
 
 import com.swingy.DbManager;
+import com.swingy.model.Armor;
 import com.swingy.model.Artifact;
 import com.swingy.model.ArtifactGenerator;
+import com.swingy.model.Helm;
 import com.swingy.model.Hero;
 import com.swingy.model.Villain;
+import com.swingy.model.Weapon;
 import com.swingy.view.ConsoleView;
 
 public class GameController {
@@ -37,6 +40,8 @@ public class GameController {
             int id = scan.nextInt();
             hero = dbManager.getHeroById(id);
             heroController.setHero(hero);
+            //check
+            setArtifactsFromDB(hero);
             System.out.println("x: " + hero.getX());
             mapController.createMapfromDb(hero.getLevel(), hero.getX(), hero.getY());
             // mapController.setCell(mapController.getSize() / 2, mapController.getSize() / 2, 0);
@@ -100,7 +105,7 @@ public class GameController {
         while (hero.isAlive() && villain.isAlive()) {
             try {
                 if (random.nextDouble() >= villainDodge) {
-                    int heroDamage = hero.getAttack() + random.nextInt(5);
+                    int heroDamage = hero.getBoostAttack() + random.nextInt(5);
                     villain.takeDamage(heroDamage);
                     System.out.println("\uD83D\uDDE1 hero attacks! (Villain HP: " + villain.getHitPoints() + ")");
                     System.out.println();
@@ -120,7 +125,8 @@ public class GameController {
                     mapController.setCell(newX, newY, 2);
                     heroController.updateHeroPosition(newX, newY);
                     gainHeroExperience(hero, villain);
-                    dbManager.saveOrUpdateHero(hero);
+                    // dbManager.saveOrUpdateHero(hero);
+                    dbManager.updateHero(hero);
                     Thread.sleep(1000);
                     return;
                 }
@@ -176,6 +182,28 @@ public class GameController {
             heroController.updateHeroPosition((mapController.getSize() / 2), (mapController.getSize() / 2));
             System.out.println("X: " + hero.getX() + " Y: " + hero.getY());
             System.out.println("HP: " + hero.getHitPoints());
+        }
+    }
+
+    private void setArtifactsFromDB(Hero hero) {
+        int[] artifacts = dbManager.getHeroBoosts(hero.getName());
+        int weaponBoost = artifacts[0];
+        int armorBoost = artifacts[1];
+        int helmBoost = artifacts[2];
+
+        if (weaponBoost != 0) {
+            Weapon weapon = new Weapon(weaponBoost);
+            hero.setWeapon(weapon);
+        }
+
+        if (armorBoost != 0) {
+            Armor armor = new Armor(armorBoost);
+            hero.setArmor(armor);
+        }
+
+        if (helmBoost != 0) {
+            Helm helm = new Helm(helmBoost);
+            hero.setHelm(helm);
         }
     }
 

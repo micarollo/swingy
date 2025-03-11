@@ -51,35 +51,59 @@ public abstract class Hero extends Character {
     }
 
     public void equipArtifact(Artifact artifact) {
-        switch (artifact.getType()) {
-            case "weapon":
-                if (this.weapon != null) {
-                    attack -= weapon.getBoost();
-                    break;
-                }
-            case "armor":
-                if (this.armor != null) {
-                    defense -= armor.getBoost();
-                    break;
-                }
-            case "helm":
-                if (this.helm != null) {
-                    hitPoints -= helm.getBoost();
-                    break;
-                }
-        }
+        // switch (artifact.getType()) {
+        //     case "weapon":
+        //         if (this.weapon != null) {
+        //             attack -= weapon.getBoost();
+        //             break;
+        //         }
+        //     case "armor":
+        //         if (this.armor != null) {
+        //             defense -= armor.getBoost();
+        //             break;
+        //         }
+        //     case "helm":
+        //         if (this.helm != null) {
+        //             hitPoints -= helm.getBoost();
+        //             break;
+        //         }
+        // }
         if (artifact instanceof Weapon newWeapon) {
-            this.weapon = newWeapon;
-            attack = getAttack() + weapon.getBoost();
+            // this.weapon = newWeapon;
+			setWeapon(newWeapon);
+            // attack = getAttack() + weapon.getBoost();
         } else if (artifact instanceof Armor newArmor) {
-            this.armor = newArmor;
-            defense = getDefense() + armor.getBoost();
+            // this.armor = newArmor;
+            setArmor(newArmor);
+			// defense = getDefense() + armor.getBoost();
         } else if (artifact instanceof Helm newHelm) {
-            this.helm = newHelm;
-            hitPoints = getHitPoints() + helm.getBoost();
+            // this.helm = newHelm;
+            setHelm(newHelm);
+			// hitPoints = getHitPoints() + helm.getBoost();
         }
     }
 
+    public int getBoostAttack() {
+        if (this.weapon != null)
+            return attack + weapon.getBoost();
+        return attack;
+    }
+
+    public int getBoostDefense() {
+        if (this.armor != null)
+            return defense + armor.getBoost();
+        return defense;
+    }
+
+    public int getBoostHitPoints() {
+        if (this.helm != null)
+            return hitPoints + helm.getBoost();
+        return hitPoints;
+    }
+
+    public void setWeapon(Weapon weapon) { this.weapon = weapon; }
+    public void setArmor(Armor armor) { this.armor = armor; }
+    public void setHelm(Helm helm) { this.helm = helm; }
     public Armor getArmor() { return armor; }
     public Helm getHelm() { return helm; }
     public Weapon getWeapon() { return weapon; }
