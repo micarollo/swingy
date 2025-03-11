@@ -77,6 +77,9 @@ public abstract class Hero extends Character {
         }
     }
 
+    public Armor getArmor() { return armor; }
+    public Helm getHelm() { return helm; }
+    public Weapon getWeapon() { return weapon; }
     public int getExperience() { return experience; }
     public int getStartingHP() { return startingHP; }
     public int getX() { return x; }
