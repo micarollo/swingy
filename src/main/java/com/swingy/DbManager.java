@@ -251,26 +251,19 @@ public class DbManager{
 
     public void updateVillains(int n, String heroName) {
         try {
-            // Verificar si la columna 'villanos' existe
             DatabaseMetaData metaData = conn.getMetaData();
             ResultSet columns = metaData.getColumns(null, null, "heroes", "villains");
-
-            // Si la columna no existe, la creamos
             if (!columns.next()) {
                 String alterTableQuery = "ALTER TABLE heroes ADD COLUMN villains INT";
                 try (Statement stmt = conn.createStatement()) {
                     stmt.executeUpdate(alterTableQuery);
-                    System.out.println("Columna 'villanos' creada.");
                 }
             }
-
-            // Insertar el número en la columna 'villanos'
             String updateQuery = "UPDATE heroes SET villains = ? WHERE name = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(updateQuery)) {
                 pstmt.setInt(1, n);
                 pstmt.setString(2, heroName);
                 pstmt.executeUpdate();
-                System.out.println("Número " + n + " guardado en la columna 'villanos'.");
             }
 
         } catch (SQLException e) {
