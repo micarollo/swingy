@@ -27,7 +27,6 @@ public class GameController {
         this.mapController = new MapController();
         mapController.createMap(1);
         this.villainController = new VillainController();
-        // this.heroController = new HeroController(consoleView, mapController, villainController);
         this.heroController = new HeroController(consoleView, mapController, this, dbManager);
     }
 
@@ -157,7 +156,6 @@ public class GameController {
         Random random = new Random();
         if (random.nextDouble() < 0.4) {
             Artifact artifact = artifactGenerator.generateArtifact(villainLevel);
-            // consoleView.displayHeroStats(hero);
             consoleView.displayActualArtifacts(hero);
             int res = consoleView.artifactMsg(artifact);
             if (res == 1) {

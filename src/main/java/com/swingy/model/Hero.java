@@ -21,7 +21,6 @@ public abstract class Hero extends Character {
 
     public void gainExperience(int xp) {
         experience += xp;
-        // return levelUp();
     }
 
     public int calculateLevelUp(int level) {
@@ -51,36 +50,13 @@ public abstract class Hero extends Character {
     }
 
     public void equipArtifact(Artifact artifact) {
-        // switch (artifact.getType()) {
-        //     case "weapon":
-        //         if (this.weapon != null) {
-        //             attack -= weapon.getBoost();
-        //             break;
-        //         }
-        //     case "armor":
-        //         if (this.armor != null) {
-        //             defense -= armor.getBoost();
-        //             break;
-        //         }
-        //     case "helm":
-        //         if (this.helm != null) {
-        //             hitPoints -= helm.getBoost();
-        //             break;
-        //         }
-        // }
-        if (artifact instanceof Weapon newWeapon) {
-            // this.weapon = newWeapon;
+		if (artifact instanceof Weapon newWeapon) {
 			setWeapon(newWeapon);
-            // attack = getAttack() + weapon.getBoost();
-        } else if (artifact instanceof Armor newArmor) {
-            // this.armor = newArmor;
-            setArmor(newArmor);
-			// defense = getDefense() + armor.getBoost();
-        } else if (artifact instanceof Helm newHelm) {
-            // this.helm = newHelm;
-            setHelm(newHelm);
-			// hitPoints = getHitPoints() + helm.getBoost();
-        }
+		} else if (artifact instanceof Armor newArmor) {
+			setArmor(newArmor);
+		} else if (artifact instanceof Helm newHelm) {
+			setHelm(newHelm);
+		}
     }
 
     public int getBoostAttack() {

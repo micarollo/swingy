@@ -12,12 +12,9 @@ import com.swingy.view.ConsoleView;
 public class HeroController {
     private final ConsoleView consoleView;
     private final MapController mapController;
-    // private final VillainController villainController;
     private final GameController gameController;
     private final DbManager dbManager;
     private Hero hero;
-    // private int x;
-    // private int y;
     Random random = new Random();
 
     public HeroController(ConsoleView consoleView, MapController mapController, GameController gameController, DbManager dbManager) {
@@ -25,17 +22,11 @@ public class HeroController {
         this.mapController = mapController;
         this.gameController = gameController;
         this.dbManager = dbManager;
-        // this.villainController = villainController;
-        // this.x = posX;
-        // this.y = posY;
-        // this.x = mapController.getSize() / 2;
-        // this.y = mapController.getSize() / 2;
     }
 
     public Hero HeroCreator() {
         int choice = consoleView.chooseHeroClass();
         String name = consoleView.chooseHeroName();
-        // Hero hero;
 
         switch (choice) {
             case 1:
@@ -53,13 +44,11 @@ public class HeroController {
         }
         hero.setX(mapController.getSize() / 2);
         hero.setY(mapController.getSize() / 2);
-        // mapController.setCell(hero.getX(), hero.getY(), 2);
         return hero;
     }
 
     public void moveHero(int nx, int ny) {
         int result = mapController.isValidMove((hero.getX() + nx), (hero.getY() + ny));
-        // Random random = new Random();
         switch (result) {
             case 0:
                 mapController.updateMap(hero.getX(), hero.getY(), 0);
@@ -73,7 +62,6 @@ public class HeroController {
                 {
                     gameController.handleBattle(hero, (hero.getX() + nx), (hero.getY() + ny));
                 } else {
-                    // int luck = random.nextInt(2);
                     int luck = ThreadLocalRandom.current().nextInt(2);
                     if (luck == 0) {
                         runAway();
@@ -89,7 +77,6 @@ public class HeroController {
     }
 		
     public void runAway() {
-        // Random random = new Random();
         int size = mapController.getSize();
         int newX, newY;
         do { 
@@ -100,26 +87,13 @@ public class HeroController {
         mapController.setCell(newX, newY, 2);
         updateHeroPosition(newX, newY);
         dbManager.updateHeroPos(newX, newY, hero.getName());
-        
-        // x = newX;
-        // y = newY;
         consoleView.runMsg();	
     }
 
     public void updateHeroPosition(int newX, int newY) {
         hero.setX(newX);
         hero.setY(newY);
-        // x = newX;
-        // y = newY;
     }
-
-    // public int getX() {
-    //     return x;
-    // }
-
-    // public int getY() {
-    //     return y;
-    // }
 
     public Hero getHero() {
         return hero;
