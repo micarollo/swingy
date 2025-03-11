@@ -131,7 +131,8 @@ public class ConsoleView {
     
     public void displayHeroStats(Hero hero) {
         System.out.println();
-        System.out.println(hero.getHeroClass() + " Stats for " + hero.getName() + ":");
+        System.out.println("Stats for " + hero.getName() + ":");
+        System.out.println("Class: " + hero.getHeroClass());
         System.out.println("Level: " + hero.getLevel());
         System.out.println("HitPoints: " + hero.getHitPoints());
         System.out.println("Attack: " + hero.getAttack());
