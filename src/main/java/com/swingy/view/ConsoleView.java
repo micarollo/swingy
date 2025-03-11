@@ -110,12 +110,14 @@ public class ConsoleView {
     }
     
     public void displayHeroStats(Hero hero) {
+        System.out.println();
         System.out.println(hero.getHeroClass() + " Stats for " + hero.getName() + ":");
         System.out.println("Level: " + hero.getLevel());
         System.out.println("HitPoints: " + hero.getHitPoints());
         System.out.println("Attack: " + hero.getAttack());
         System.out.println("Defense: " + hero.getDefense());
         System.out.println("Experience: " + hero.getExperience());
+        System.out.println();
     }
 
     public void displayExperienceGain(Hero hero, int xp) {
@@ -171,6 +173,7 @@ public class ConsoleView {
     public void villainAppears(Villain villain) {
         System.out.println();
         System.out.println("-------A " + villain.getName() + " appears-------");
+        System.out.println();
     }
 
     public void displayHeroBattleStats(Hero hero) {
@@ -191,5 +194,23 @@ public class ConsoleView {
         choice = scanner.nextInt();
         scanner.nextLine();
         return choice;
+    }
+    
+    public void displayActualArtifacts(Hero hero) {
+        System.out.println();
+        System.out.println("Actual artifacts boost");
+        if (hero.getWeapon() != null)
+            System.out.print("Attack: +" + hero.getWeapon().getBoost());
+        else
+            System.out.print("Attack: +0");
+        if (hero.getHelm() != null)
+            System.out.print(" | HP: +" + hero.getHelm().getBoost());
+        else
+            System.out.print(" | HP: +0");
+        if (hero.getArmor() != null)
+            System.out.println(" | Defense: +" + hero.getArmor().getBoost());
+        else
+            System.out.println(" | Defense: +0");
+        System.out.println();
     }
 }

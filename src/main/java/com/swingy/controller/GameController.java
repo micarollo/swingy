@@ -153,7 +153,8 @@ public class GameController {
         Random random = new Random();
         if (random.nextDouble() < 0.4) {
             Artifact artifact = artifactGenerator.generateArtifact(villainLevel);
-            consoleView.displayHeroStats(hero);
+            // consoleView.displayHeroStats(hero);
+            consoleView.displayActualArtifacts(hero);
             int res = consoleView.artifactMsg(artifact);
             if (res == 1) {
                 hero.equipArtifact(artifact);
