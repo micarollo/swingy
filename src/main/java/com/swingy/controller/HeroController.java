@@ -75,7 +75,6 @@ public class HeroController {
                 } else {
                     // int luck = random.nextInt(2);
                     int luck = ThreadLocalRandom.current().nextInt(2);
-                    System.out.println("luck: " + luck);
                     if (luck == 0) {
                         runAway();
                     } else {

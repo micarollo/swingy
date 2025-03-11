@@ -30,10 +30,10 @@ public abstract class Hero extends Character {
         if (experience >= requiredXP) {
             level++;
             experience -= requiredXP;
-            attack += new Random().nextInt(5) + 2;
-            defense += new Random().nextInt(5) + 2;
+            attack += new Random().nextInt(3) + 1;
+            defense += new Random().nextInt(3) + 1;
             hitPoints = getStartingHP();
-            hitPoints += new Random().nextInt(10) + 5;
+            hitPoints += new Random().nextInt(5) + 3;
             return true;
         }
         return false;

@@ -102,17 +102,17 @@ public class GameController {
                 if (random.nextDouble() >= villainDodge) {
                     int heroDamage = hero.getAttack() + random.nextInt(5);
                     villain.takeDamage(heroDamage);
-                    System.out.println("hero attacks! (Villain HP: " + villain.getHitPoints() + ")");
+                    System.out.println("\uD83D\uDDE1 hero attacks! (Villain HP: " + villain.getHitPoints() + ")");
                     System.out.println();
                     Thread.sleep(500);
                 } else {
-                    System.out.println("Villain dodged the attack!");
+                    System.out.println("\uD83D\uDCA8 Villain dodged the attack!");
                     System.out.println();
                     Thread.sleep(300);
                 }
                 if (!villain.isAlive())
                 {
-                    System.out.println("You win");
+                    System.out.println("\uD83D\uDCAA You win");
                     System.out.println("<<--------------END------------->");
                     System.out.println();
                     handleDropArtifact(villain.getLevel());
@@ -127,11 +127,11 @@ public class GameController {
                 if (random.nextDouble() >= heroDodge) {
                     int villainDamage = villain.getAttack() + random.nextInt(3);
                     hero.takeDamage(villainDamage);
-                    System.out.println("Villain attacks! (Hero HP: " + hero.getHitPoints() + ")");
+                    System.out.println("\uD83D\uDCA5 Villain attacks! (Hero HP: " + hero.getHitPoints() + ")");
                     System.out.println();
                     Thread.sleep(500);
                 } else {
-                    System.out.println("Hero dodged the attack!");
+                    System.out.println("\uD83D\uDCA8 Hero dodged the attack!");
                     System.out.println();
                     Thread.sleep(300);
                 }

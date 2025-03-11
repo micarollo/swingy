@@ -10,6 +10,26 @@ import com.swingy.model.Villain;
 public class ConsoleView {
     Scanner scanner = new Scanner(System.in);
     
+    public enum UnicodeSymbol {
+        HEART("\u2665"),
+        PUMPKIN("\uD83C\uDF83"),
+        SKULL("\u2620"),
+        SWORD("\u2694"),
+        SHIELD("\u1F6E1"),
+        VILLAINS("\uD83D\uDC3A \uD83D\uDC7F \uD83E\uDDDB ");
+
+        private final String symbol;
+
+        UnicodeSymbol(String symbol) {
+            this.symbol = symbol;
+        }
+
+        @Override
+        public String toString() {
+            return symbol;
+        }
+    }   
+
     public int displayWelcomeMessage() {
         System.out.println("Welcome to Swingy RPG!");
         System.out.println("1. Play with an existing Hero");
@@ -36,8 +56,8 @@ public class ConsoleView {
 
     public int chooseHeroClass() {
         System.out.println("Choose your Hero class:");
-        System.out.println("1. Warrior [Attack:15 | Defense:10 | HP:50]");
-        System.out.println("2. Mage [Attack:10 | Defense:5 | HP:40]");
+        System.out.println("1. Warrior [Attack:10 | Defense:8 | HP:40]");
+        System.out.println("2. Mage [Attack:8 | Defense:10 | HP:40]");
 
         int choice = 0;
         boolean valid = false;
@@ -147,7 +167,9 @@ public class ConsoleView {
     }
 
     public void runMsg() {
-        System.out.println("You runned like a coward!");
+        System.out.println();
+        System.out.println(UnicodeSymbol.PUMPKIN + "You runned like a coward!");
+        System.out.println();
     }
 
     // public void displayExperienceGained(int xpGained, Hero hero) {
@@ -157,7 +179,7 @@ public class ConsoleView {
     // }
 
     public void gameOver() {
-        System.out.println("The villain won. GAME OVER");
+        System.out.println("\uD83D\uDC80 The villain won. GAME OVER");
         System.exit(0);
     }
 
@@ -172,7 +194,7 @@ public class ConsoleView {
 
     public void villainAppears(Villain villain) {
         System.out.println();
-        System.out.println("-------A " + villain.getName() + " appears-------");
+        System.out.println(UnicodeSymbol.VILLAINS + "A " + villain.getName() + " appears!!" + UnicodeSymbol.VILLAINS);
         System.out.println();
     }
 
