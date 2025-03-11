@@ -168,12 +168,10 @@ public class GameController {
     public void gainHeroExperience(Hero hero, Villain villain) {
         int power = villain.getPower();
         int xpGained = power * 10;
-        boolean levelUp = hero.gainExperience(xpGained);
-        // System.out.println("You gained " + xpGained + " experience.");
-        // System.out.println("Total Experience: " + hero.getExperience());
-        // System.out.println("Current Level: " + hero.getLevel());
+        hero.gainExperience(xpGained);
         consoleView.displayExperienceGain(hero, xpGained);
-        if (levelUp) {
+        if (hero.needToLevelUp()) {
+            hero.levelUp(hero.calculateLevelUp(hero.getLevel()));
             mapController.changeLevel(hero.getLevel());
             heroController.updateHeroPosition((mapController.getSize() / 2), (mapController.getSize() / 2));
             System.out.println("X: " + hero.getX() + " Y: " + hero.getY());
