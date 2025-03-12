@@ -45,6 +45,16 @@ class HeroTest{
     }
 
     @Test
+    public void testEquipWeapon() {
+        Weapon weapon = new Weapon(5);
+        hero.equipArtifact(weapon);
+        assertEquals(weapon, hero.getWeapon());
+        assertEquals(5, weapon.getBoost());
+        assertEquals(15, hero.getBoostAttack());
+        assertEquals(10, hero.getAttack());
+    }
+
+    @Test
     public void testSetAndGetPosition() {
         hero.setX(10);
         hero.setY(15);
