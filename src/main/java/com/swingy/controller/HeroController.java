@@ -62,8 +62,8 @@ public class HeroController {
                 {
                     gameController.handleBattle(hero, (hero.getX() + nx), (hero.getY() + ny));
                 } else {
-                    int luck = ThreadLocalRandom.current().nextInt(2);
-                    if (luck == 0) {
+                    int luck = ThreadLocalRandom.current().nextInt(10);
+                    if (luck < 7) {
                         runAway();
                     } else {
                         System.out.println("Bad luck, the villain don't let you run and you have to fight!!");

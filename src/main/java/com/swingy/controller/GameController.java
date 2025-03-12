@@ -112,18 +112,7 @@ public class GameController {
                 }
                 if (!villain.isAlive())
                 {
-                    System.out.println("\uD83D\uDCAA You win");
-                    System.out.println("<<--------------END------------->");
-                    System.out.println();
-                    mapController.getMap().killVillain();
-                    dbManager.updateVillains(mapController.getMap().getMaxVillains(), hero.getName());
-                    handleDropArtifact(villain.getLevel());
-                    mapController.setCell(hero.getX(), hero.getY(), 0);
-                    mapController.setCell(newX, newY, 2);
-                    heroController.updateHeroPosition(newX, newY);
-                    gainHeroExperience(hero, villain);
-                    // dbManager.saveOrUpdateHero(hero);
-                    dbManager.updateHero(hero);
+                    battleWon(villain, newX, newY);
                     Thread.sleep(1000);
                     return;
                 }
@@ -140,8 +129,7 @@ public class GameController {
                 }
                 if (!hero.isAlive())
                 {
-                    dbManager.deleteHero(hero.getName());
-                    consoleView.gameOver();
+                    battleLost();
                     Thread.sleep(1000);
 
                 }
@@ -150,6 +138,23 @@ public class GameController {
             }
         }   
 	}
+
+    private void battleWon(Villain villain, int newX, int newY) {
+        consoleView.winningMsg();
+        mapController.getMap().killVillain();
+        dbManager.updateVillains(mapController.getMap().getMaxVillains(), hero.getName());
+        handleDropArtifact(villain.getLevel());
+        mapController.setCell(hero.getX(), hero.getY(), 0);
+        mapController.setCell(newX, newY, 2);
+        heroController.updateHeroPosition(newX, newY);
+        gainHeroExperience(hero, villain);
+        dbManager.updateHero(hero);
+    }
+
+    private void battleLost() {
+        dbManager.deleteHero(hero.getName());
+        consoleView.gameOver();
+    }
 
     public void handleDropArtifact(int villainLevel) {
         ArtifactGenerator artifactGenerator = new ArtifactGenerator();

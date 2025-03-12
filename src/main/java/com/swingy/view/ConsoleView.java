@@ -156,10 +156,10 @@ public class ConsoleView {
                         System.out.print("[ ]");
                         break;
                     case 1:
-                        System.out.print("[V]");
+                        System.out.print("[x]");
                         break;
                     case 2:
-                        System.out.print("[P]");
+                        System.out.print("[\u001B[32mP\u001B[0m]");
                         break;
                 }
             }
@@ -169,7 +169,7 @@ public class ConsoleView {
 
     public void runMsg() {
         System.out.println();
-        System.out.println(UnicodeSymbol.PUMPKIN + "You runned like a coward!");
+        System.out.println(UnicodeSymbol.PUMPKIN + " You runned like a coward! " + UnicodeSymbol.PUMPKIN);
         System.out.println();
     }
 
@@ -235,5 +235,18 @@ public class ConsoleView {
         else
             System.out.println(" | Defense: +0");
         System.out.println();
+    }
+
+    public void winningMsg() {
+        System.out.println("\uD83D\uDCAA You win");
+        System.out.println();
+    }
+
+    public void villainAttackMsg(Hero hero) {
+        System.out.println("\uD83D\uDCA5 Villain attacks! (Hero HP: " + hero.getHitPoints() + ")");
+    }
+
+    public void heroAttackMsg(Villain villain) {
+        System.out.println("\uD83D\uDDE1 hero attacks! (Villain HP: " + villain.getHitPoints() + ")");
     }
 }
