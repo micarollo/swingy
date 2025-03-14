@@ -22,7 +22,7 @@ public class GameController {
 	private Hero hero;
 
 	public GameController() {
-		this.dbManager = new DbManager();
+		this.dbManager = new DbManager("jdbc:sqlite:swingy.db");
 		this.consoleView = new ConsoleView();
 		this.mapController = new MapController();
 		mapController.createMap(1);

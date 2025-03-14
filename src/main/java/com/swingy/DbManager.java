@@ -15,10 +15,10 @@ import com.swingy.model.Warrior;
 public class DbManager{
 	private Connection conn;
 	
-	public DbManager() {
+	public DbManager(String dbUrl) {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			conn = DriverManager.getConnection("jdbc:sqlite:swingy.db");
+			conn = DriverManager.getConnection(dbUrl);
 			//clean db
 			// String dropTableSQL = "DROP TABLE IF EXISTS heroes";
 			// Statement stmt = conn.createStatement();

@@ -77,6 +77,7 @@ public abstract class Hero extends Character {
 		return hitPoints;
 	}
 
+	public void setLevel(int level) { this.level = level; }
 	public void setWeapon(Weapon weapon) { this.weapon = weapon; }
 	public void setArmor(Armor armor) { this.armor = armor; }
 	public void setHelm(Helm helm) { this.helm = helm; }
