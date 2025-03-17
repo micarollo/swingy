@@ -5,6 +5,7 @@ public class Map {
 	private final int size;
 	private int maxVillians;
 
+	//separar calculo de villanos del constructor
 	public Map(int level) {
 		this.size = calculateMap(level);
 		this.maxVillians = calculateVillains();
@@ -28,6 +29,10 @@ public class Map {
 	public void setCell(int x, int y, int value) {
 		if (x >= 0 && x < size && y >= 0 && y < size)
 			gridMap[x][y] = value;
+	}
+
+	public void setMaxVillains(int n) {
+		this.maxVillians = n;
 	}
 
 	public int getSize() {
