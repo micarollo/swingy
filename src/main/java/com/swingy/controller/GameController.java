@@ -31,18 +31,24 @@ public class GameController {
 	}
 
 	public void startGame() {
+		dbManager.createHeroesTable();
 		Scanner scan = new Scanner(System.in);
 		int choice = consoleView.displayWelcomeMessage();
 		if (choice == 1) {
 			dbManager.displayHeroes();
 			int id = scan.nextInt();
+			if (id == 0)
+				startGame();
 			hero = dbManager.getHeroById(id);
 			heroController.setHero(hero);
 			//check
 			setArtifactsFromDB(hero);
-			System.out.println("x: " + hero.getX());
 			//hacer un if para obtener la cant de villanos y crear el mapa con esa cantidad
-			mapController.createMapfromDb(hero.getLevel(), hero.getX(), hero.getY());
+			int villains = dbManager.getVillains(id);
+			if (villains != 0)
+				mapController.createMapfromDb(hero.getLevel(), hero.getX(), hero.getY(), villains);
+			else
+				mapController.createMapfromDb(hero.getLevel(), hero.getX(), hero.getY(), 0);
 			System.out.println(hero);
 		}
 		else {
