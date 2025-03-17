@@ -107,12 +107,10 @@ public class GameController {
 				if (random.nextDouble() >= villainDodge) {
 					int heroDamage = hero.getBoostAttack() + random.nextInt(5);
 					villain.takeDamage(heroDamage);
-					System.out.println("\uD83D\uDDE1 hero attacks! (Villain HP: " + villain.getHitPoints() + ")");
-					System.out.println();
+					consoleView.heroAttackMsg(villain);
 					Thread.sleep(500);
 				} else {
-					System.out.println("\uD83D\uDCA8 Villain dodged the attack!");
-					System.out.println();
+					consoleView.dodgedMsg("Villain");
 					Thread.sleep(300);
 				}
 				if (!villain.isAlive())
@@ -124,12 +122,10 @@ public class GameController {
 				if (random.nextDouble() >= heroDodge) {
 					int villainDamage = villain.getAttack() + random.nextInt(3);
 					hero.takeDamage(villainDamage);
-					System.out.println("\uD83D\uDCA5 Villain attacks! (Hero HP: " + hero.getHitPoints() + ")");
-					System.out.println();
+					consoleView.villainAttackMsg(hero);
 					Thread.sleep(500);
 				} else {
-					System.out.println("\uD83D\uDCA8 Hero dodged the attack!");
-					System.out.println();
+					consoleView.dodgedMsg("Hero");
 					Thread.sleep(300);
 				}
 				if (!hero.isAlive())
@@ -174,7 +170,8 @@ public class GameController {
 			}
 		}
 		else
-			System.out.println("bad luck: the villain didnt drop any artifact!!");
+			consoleView.badLuckMsg();
+			// System.out.println("bad luck: the villain didnt drop any artifact!!");
 	}
 
 	public void gainHeroExperience(Hero hero, Villain villain) {
@@ -186,8 +183,8 @@ public class GameController {
 			hero.levelUp(hero.calculateLevelUp(hero.getLevel()));
 			mapController.changeLevel(hero.getLevel());
 			heroController.updateHeroPosition((mapController.getSize() / 2), (mapController.getSize() / 2));
-			System.out.println("X: " + hero.getX() + " Y: " + hero.getY());
-			System.out.println("HP: " + hero.getHitPoints());
+			// System.out.println("X: " + hero.getX() + " Y: " + hero.getY());
+			// System.out.println("HP: " + hero.getHitPoints());
 		}
 	}
 

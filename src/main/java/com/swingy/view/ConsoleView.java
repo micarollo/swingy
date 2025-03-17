@@ -138,6 +138,12 @@ public class ConsoleView {
 		System.out.println("Attack: " + hero.getAttack());
 		System.out.println("Defense: " + hero.getDefense());
 		System.out.println("Experience: " + hero.getExperience());
+		if (hero.getWeapon() != null)
+			System.out.println("Weapon Boost: " + hero.getWeapon().getBoost());
+		if (hero.getArmor() != null)
+			System.out.println("Armor Boost: " + hero.getArmor().getBoost());
+		if (hero.getHelm() != null)
+			System.out.println("Helm Boost: " + hero.getHelm().getBoost());
 		System.out.println();
 	}
 
@@ -244,9 +250,21 @@ public class ConsoleView {
 
 	public void villainAttackMsg(Hero hero) {
 		System.out.println("\uD83D\uDCA5 Villain attacks! (Hero HP: " + hero.getHitPoints() + ")");
+		System.out.println();
 	}
 
 	public void heroAttackMsg(Villain villain) {
 		System.out.println("\uD83D\uDDE1 hero attacks! (Villain HP: " + villain.getHitPoints() + ")");
+		System.out.println();
+	}
+
+	public void badLuckMsg() {
+		System.out.println("bad luck: the villain didnt drop any artifact!!");
+		System.out.println();
+	}
+
+	public void dodgedMsg(String ch) {
+		System.out.println("\uD83D\uDCA8 " + ch + " dodged the attack!");
+		System.out.println();
 	}
 }
