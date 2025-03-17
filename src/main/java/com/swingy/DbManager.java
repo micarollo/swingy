@@ -24,7 +24,7 @@ public class DbManager{
 			// Statement stmt = conn.createStatement();
 			// stmt.executeUpdate(dropTableSQL);
 			// dropHeroesTable();
-			createHeroesTable();
+			// createHeroesTable();
 			System.out.println("Connected to the database.");
 		} catch (ClassNotFoundException e) {
 			System.err.println("SQLite JDBC driver not found.");
@@ -35,7 +35,7 @@ public class DbManager{
 		}
 	}
 
-	private void createHeroesTable() {
+	public void createHeroesTable() {
 		try (Statement statement = conn.createStatement()) {
 			String sql = "CREATE TABLE IF NOT EXISTS heroes (" +
 					"id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -111,6 +111,7 @@ public class DbManager{
 						", villains: " + resultSet.getInt("Villains")
 				);
 			}
+			System.out.println("Press 0 to go back");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

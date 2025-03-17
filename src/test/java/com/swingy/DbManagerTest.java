@@ -17,11 +17,15 @@ public class DbManagerTest {
 
     @BeforeEach
     public void setUp() {
-        dbManager = new DbManager("jdbc:sqlite::memory:");
+        System.out.println("Ejecutando setUp...");
+        dbManager = new DbManager("jdbc:sqlite:test.db"); //switch to memory?
+        dbManager.createHeroesTable();
+        assertNotNull(dbManager, "dbManager no debería ser null");
     }
 
     @Test
     public void testSaveHero() {
+        System.out.println("Ejecutando testSaveHero...");
         Hero hero = new Warrior("TestHero", 1, 10, 5, 100, 0, 0, 0);
         dbManager.saveHero(hero);
 
