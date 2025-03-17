@@ -194,6 +194,20 @@ public class DbManager{
 
 	}
 
+	public int getVillains(int id) {
+		String sql = "SELECT * FROM heroes WHERE id = ?";
+		int villains = 0;
+		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+			stmt.setInt(1, id);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next())
+				villains = rs.getInt("villains");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return villains;
+	}
+
 	public Hero getHeroById(int id) {
 		String sql = "SELECT * FROM heroes WHERE id = ?";
 		Hero hero = null;
