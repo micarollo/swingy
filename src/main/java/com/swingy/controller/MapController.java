@@ -11,11 +11,15 @@ public class MapController {
 
 	public void createMap(int level) {
 		this.map = new Map(level);
-		fillGridMap();
 	}
-// idea: fill grid map solo 0
-//fill villains
-//place hero o algo asi
+
+	public void setUpMap(int x, int y, int v) {
+		fillMap();
+		placeHero(x, y);
+		map.setMaxVillains(v);
+		placeVillains();
+	}
+
 	public void fillMap() {
 		int size = map.getSize();
 		for (int i = 0; i < size; i++) {
@@ -25,7 +29,7 @@ public class MapController {
 		}
 	}
 
-	public void placeHero2(int heroX, int heroY) {
+	public void placeHero(int heroX, int heroY) {
 		map.setCell(heroX, heroY, 2);
 	}
 
@@ -45,63 +49,9 @@ public class MapController {
 		}
 	}
 
-	public void fillGridMap() {
-		Random random = new Random();
-		int size = map.getSize();
-		int maxVillians = map.getMaxVillains();
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				map.setCell(i, j, 0);
-			}
-		}
-		placeHero();
-		int placedVillains = 0;
-		while (placedVillains < maxVillians) {
-			int x = random.nextInt(size);
-			int y = random.nextInt(size);
-
-			if (map.getCell(x, y) == 0) {
-				map.setCell(x, y, 1);
-				placedVillains++;
-			}
-		}
-	}
-
-	private void placeHero() {
-		int size = map.getSize();
-		int x = size / 2;
-		int y = size / 2;
-		map.setCell(x, y, 2);
-	}
-
 	public void changeLevel(int level) {
 		createMap(level);
-	}
-
-//chage this!!
-	public void createMapfromDb(int level, int heroX, int heroY, int villains) {
-		this.map = new Map(level);
-		Random random = new Random();
-		int size = map.getSize();
-		if (villains == 0)
-			villains = map.getMaxVillains();
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				map.setCell(i, j, 0);
-			}
-		}
-		map.setCell(heroX, heroY, 2);
-		int placedVillains = 0;
-		while (placedVillains < villains) {
-			int x = random.nextInt(size);
-			int y = random.nextInt(size);
-
-			if (map.getCell(x, y) == 0) {
-				map.setCell(x, y, 1);
-				placedVillains++;
-			}
-		}
-		map.setMaxVillains(villains);
+		setUpMap(map.getSize() / 2, map.getSize() / 2, map.calculateVillains());
 	}
 
 	public int isValidMove(int nextX, int nextY) {

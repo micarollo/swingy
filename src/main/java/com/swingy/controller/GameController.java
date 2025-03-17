@@ -43,17 +43,16 @@ public class GameController {
 			heroController.setHero(hero);
 			//check
 			setArtifactsFromDB(hero);
-			//hacer un if para obtener la cant de villanos y crear el mapa con esa cantidad
 			int villains = dbManager.getVillains(id);
-			if (villains != 0)
-				mapController.createMapfromDb(hero.getLevel(), hero.getX(), hero.getY(), villains);
-			else
-				mapController.createMapfromDb(hero.getLevel(), hero.getX(), hero.getY(), 0);
 			System.out.println(hero);
+			mapController.createMap(hero.getLevel());
+			mapController.setUpMap(hero.getX(), hero.getY(), villains);
 		}
 		else {
 			hero = heroController.HeroCreator();
 			dbManager.saveHero(hero);
+			mapController.setUpMap(mapController.getMap().getSize() / 2, mapController.getMap().getSize() / 2, mapController.getMap().calculateVillains());
+			dbManager.updateVillains(mapController.getMap().getMaxVillains(), hero.getName());
 		}
 		consoleView.displayHeroStats(hero);
 		consoleView.displayMap(mapController.getMap());
