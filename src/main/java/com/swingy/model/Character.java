@@ -37,4 +37,7 @@ public abstract class Character {
 	public int getAttack() { return attack; }
 	public int getDefense() { return defense; }
 	public int getHitPoints() { return hitPoints; }
+	public void setHitPoints(int hp) {
+		this.hitPoints = hp;
+	}
 }

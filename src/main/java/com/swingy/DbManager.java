@@ -117,49 +117,6 @@ public class DbManager{
 		}
 	}
 
-	public void saveOrUpdateHero(Hero hero) {
-		String checkHeroSQL = "SELECT COUNT(*) FROM heroes WHERE name = ?";
-		String updateHeroSQL = "UPDATE heroes SET level = ?, experience = ?, attack = ?, defense = ?, hitPoints = ?, x = ?, y = ? WHERE name = ?";
-		String insertHeroSQL = "INSERT INTO heroes (name, class, level, experience, attack, defense, hitPoints, x, y) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-		try (PreparedStatement checkStmt = conn.prepareStatement(checkHeroSQL)) {
-			checkStmt.setString(1, hero.getName());
-			ResultSet rs = checkStmt.executeQuery();
-			rs.next();
-			
-			if (rs.getInt(1) > 0) {
-				// Si el héroe existe, hacer un UPDATE
-				try (PreparedStatement updateStmt = conn.prepareStatement(updateHeroSQL)) {
-					updateStmt.setInt(1, hero.getLevel());
-					updateStmt.setInt(2, hero.getExperience());
-					updateStmt.setInt(3, hero.getAttack());
-					updateStmt.setInt(4, hero.getDefense());
-					updateStmt.setInt(5, hero.getHitPoints());
-					updateStmt.setInt(6, hero.getX());
-					updateStmt.setInt(7, hero.getY());
-					updateStmt.setString(8, hero.getName());
-					updateStmt.executeUpdate();
-				}
-			} else {
-				// Si el héroe no existe, hacer un INSERT
-				try (PreparedStatement insertStmt = conn.prepareStatement(insertHeroSQL)) {
-					insertStmt.setString(1, hero.getName());
-					insertStmt.setString(2, hero.getHeroClass());
-					insertStmt.setInt(3, hero.getLevel());
-					insertStmt.setInt(4, hero.getExperience());
-					insertStmt.setInt(5, hero.getAttack());
-					insertStmt.setInt(6, hero.getDefense());
-					insertStmt.setInt(7, hero.getHitPoints());
-					insertStmt.setInt(8, hero.getX());
-					insertStmt.setInt(9, hero.getY());
-					insertStmt.executeUpdate();
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public void updateHero(Hero hero) {
 		String updateHeroSQL = "UPDATE heroes SET level = ?, experience = ?, attack = ?, defense = ?, hitPoints = ?, x = ?, y = ?, weaponBoost = ?, armorBoost = ?, helmBoost = ? WHERE name = ?";
 

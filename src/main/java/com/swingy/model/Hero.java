@@ -78,9 +78,10 @@ public abstract class Hero extends Character {
 	}
 
 	public void recoverHp(int n) {
-		hitPoints += n;
-		if (hitPoints > startingHP)
-			hitPoints = startingHP;
+		if ((getHitPoints() + n) > startingHP)
+			setHitPoints(startingHP);
+		else
+			setHitPoints(getHitPoints() + n);	
 	}
 
 	public void setLevel(int level) { this.level = level; }

@@ -61,4 +61,12 @@ class HeroTest{
 		assertEquals(10, hero.getX());
 		assertEquals(15, hero.getY());
 	}
+
+	@Test
+	public void testRecoverHp() {
+		assertEquals(100, hero.getHitPoints());
+		hero.takeDamage(20);
+		hero.recoverHp(5);
+		assertEquals(90, hero.getHitPoints());
+	}
 }
