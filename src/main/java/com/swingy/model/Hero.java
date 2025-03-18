@@ -77,6 +77,12 @@ public abstract class Hero extends Character {
 		return hitPoints;
 	}
 
+	public void recoverHp(int n) {
+		hitPoints += n;
+		if (hitPoints > startingHP)
+			hitPoints = startingHP;
+	}
+
 	public void setLevel(int level) { this.level = level; }
 	public void setWeapon(Weapon weapon) { this.weapon = weapon; }
 	public void setArmor(Armor armor) { this.armor = armor; }

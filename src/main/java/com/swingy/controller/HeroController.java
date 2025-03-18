@@ -55,6 +55,13 @@ public class HeroController {
 				updateHeroPosition((hero.getX() + nx), (hero.getY() + ny));
 				mapController.updateMap(hero.getX(), hero.getY(), 2);
 				dbManager.updateHeroPos(hero.getX(), hero.getY(), hero.getName());
+				//IDEA to recover hp
+				// int foundHP = ThreadLocalRandom.current().nextInt(10);
+            	// if (foundHP < 3) { // 30% de probabilidad
+                // 	int hpRecovered = ThreadLocalRandom.current().nextInt(10, 21); // Recupera entre 10 y 20 HP
+                // 	hero.recoverHp(hpRecovered);
+                // 	System.out.println("\uD83C\uDF7D️ You found a health potion! Restored " + hpRecovered + " HP.");
+            	// }
 				break;
 			case 1:
 				int choose = consoleView.displayFightorRun();
