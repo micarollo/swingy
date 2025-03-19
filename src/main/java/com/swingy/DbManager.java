@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.swingy.model.Hero;
 import com.swingy.model.Mage;
@@ -87,6 +89,24 @@ public class DbManager{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public List<Object[]> getAllHeroData() {
+		List<Object[]> heroesData = new ArrayList<>();
+		String query = "SELECT id, name, class, level FROM heroes";
+		try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+			while (rs.next()) {
+				Object[] heroData = new Object[4];
+				heroData[0] = rs.getInt("id");
+				heroData[1] = rs.getString("name");
+				heroData[2] = rs.getString("class");
+				heroData[3] = rs.getInt("level");
+				heroesData.add(heroData);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	return heroesData;
 	}
 
 	public void displayHeroes() {

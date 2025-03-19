@@ -1,7 +1,10 @@
 package com.swingy.controller;
 
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+
+import javax.swing.SwingUtilities;
 
 import com.swingy.DbManager;
 import com.swingy.model.Armor;
@@ -12,11 +15,13 @@ import com.swingy.model.Hero;
 import com.swingy.model.Villain;
 import com.swingy.model.Weapon;
 import com.swingy.view.ConsoleView;
+import com.swingy.view.GuiView;
 
 public class GameController {
 	private final DbManager dbManager;
 	private final MapController mapController;
 	private final ConsoleView consoleView;
+	private final GuiView guiView;
 	private final HeroController heroController;
 	private final VillainController villainController;
 	private Hero hero;
@@ -24,6 +29,7 @@ public class GameController {
 	public GameController() {
 		this.dbManager = new DbManager("jdbc:sqlite:swingy.db");
 		this.consoleView = new ConsoleView();
+		this.guiView = new GuiView(this);
 		this.mapController = new MapController();
 		mapController.createMap(1);
 		this.villainController = new VillainController();
@@ -57,6 +63,18 @@ public class GameController {
 		consoleView.displayHeroStats(hero);
 		consoleView.displayMap(mapController.getMap());
 		gameLoop();
+	}
+
+	public void startGuiModeGame() {
+		SwingUtilities.invokeLater(() -> {
+            guiView.init();
+			guiView.setVisible(true);
+        });
+	}
+
+	public void selectHeroGuiMode() {
+		List<Object[]> heroesData = dbManager.getAllHeroData();
+		guiView.showHeroSelectionDialog(heroesData);
 	}
 
 	public void gameLoop() {
