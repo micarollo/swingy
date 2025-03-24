@@ -3,9 +3,11 @@ package com.swingy.view;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,13 +15,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import com.swingy.controller.GameController;
 
 public class GuiView extends JFrame {
-	private GameController gameController;
+	private final GameController gameController;
 
 	public GuiView(GameController gameController) {
 		this.gameController = gameController;		
@@ -46,12 +50,12 @@ public class GuiView extends JFrame {
 		buttonPanel.add(existingHeroButton);
 		buttonPanel.add(newHeroButton);
 		existingHeroButton.addActionListener(e -> gameController.selectHeroGuiMode());
-
+		newHeroButton.addActionListener(e -> gameController.createNewHeroGuiMode());
 		add(buttonPanel, BorderLayout.CENTER);
 	}
 
 	//move outside view
-	public void showHeroSelectionDialog(List<Object[]> heroesData) {
+	public Integer showHeroSelectionDialog(List<Object[]> heroesData) {
 		String[][] heroData = new String[heroesData.size()][4];
 		for (int i = 0; i < heroesData.size(); i++) {
 			Object[] hero = heroesData.get(i);
@@ -70,12 +74,15 @@ public class GuiView extends JFrame {
 		dialog.setSize(600, 500);
 		dialog.setLayout(new BorderLayout());
 
+		final Integer[] selectedHeroId = {null};
 		// confirm selection
 		JButton selectButton = new JButton("Select Hero");
 		selectButton.addActionListener(e -> {
 			int selectedRow = heroTable.getSelectedRow();
 			if (selectedRow != -1) {
 				String heroName = heroTable.getValueAt(selectedRow, 1).toString();
+				// selectedHeroId[0] = (Integer) heroTable.getValueAt(selectedRow, 0);
+				selectedHeroId[0] = Integer.parseInt((String) heroTable.getValueAt(selectedRow, 0));
 				JOptionPane.showMessageDialog(this, "You selected: " + heroName);
 				dialog.dispose();
 			} else {
@@ -88,6 +95,46 @@ public class GuiView extends JFrame {
 		dialog.setLocationRelativeTo(this);
 		dialog.setVisible(true);
 	
-		//return id?
+		return selectedHeroId[0];
+	}
+
+	public String[] showNewHeroDialog() {
+		System.out.println("Here");
+		JDialog dialog = new JDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Create a New Hero", true);
+		dialog.setSize(400, 300);
+		dialog.setLayout(new BorderLayout());
+
+		JPanel panel = new JPanel(new GridLayout(3, 2));
+
+		panel.add(new JLabel("Enter Hero Name:"));
+		JTextField nameField = new JTextField();
+		panel.add(nameField);
+
+		panel.add(new JLabel("Choose Hero Class:"));
+		String[] classes = {"Warrior", "Mage"};
+		JComboBox<String> classBox = new JComboBox<>(classes);
+		panel.add(classBox);
+
+		final String[] heroData = new String[2];
+		JButton createButton = new JButton("Create Hero");
+		createButton.addActionListener(e -> {
+			String heroName = nameField.getText().trim();
+			String heroClass = (String) classBox.getSelectedItem();
+
+			if (!heroName.isEmpty()) {
+				// gameController.createHero(heroName, heroClass);
+				heroData[0] = heroClass;
+				heroData[1] = heroName;
+				dialog.dispose();
+			} else {
+				JOptionPane.showMessageDialog(dialog, "Please enter a hero name.");
+			}
+		});
+
+		dialog.add(panel, BorderLayout.CENTER);
+		dialog.add(createButton, BorderLayout.SOUTH);
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
+		return heroData;
 	}
 }

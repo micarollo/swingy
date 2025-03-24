@@ -55,7 +55,9 @@ public class GameController {
 			mapController.setUpMap(hero.getX(), hero.getY(), villains);
 		}
 		else {
-			hero = heroController.HeroCreator();
+			String cl = consoleView.chooseHeroClass();
+			String name = consoleView.chooseHeroName();
+			hero = heroController.HeroCreator(cl, name);
 			dbManager.saveHero(hero);
 			mapController.setUpMap(mapController.getMap().getSize() / 2, mapController.getMap().getSize() / 2, mapController.getMap().calculateVillains());
 			dbManager.updateVillains(mapController.getMap().getMaxVillains(), hero.getName());
@@ -74,42 +76,41 @@ public class GameController {
 
 	public void selectHeroGuiMode() {
 		List<Object[]> heroesData = dbManager.getAllHeroData();
-		guiView.showHeroSelectionDialog(heroesData);
+		int id = guiView.showHeroSelectionDialog(heroesData);
+		System.out.println(id);
+	}
+
+	public void createNewHeroGuiMode() {
+		String[] heroData;
+		heroData = guiView.showNewHeroDialog();
+		System.out.println(heroData[0] + ": " + heroData[1]);
+		hero = heroController.HeroCreator(heroData[0], heroData[1]);
+		dbManager.saveHero(hero);
+		mapController.setUpMap(mapController.getMap().getSize() / 2, mapController.getMap().getSize() / 2, mapController.getMap().calculateVillains());
+		dbManager.updateVillains(mapController.getMap().getMaxVillains(), hero.getName());
 	}
 
 	public void gameLoop() {
 		while (true) { 
-			int input = consoleView.displayMenu();
-			if (input != -1) {
+			char input = consoleView.displayMenu();
+			if (input != '\0') {
 				handleInput(input);
 				consoleView.displayMap(mapController.getMap());
 			}
 		}
 	}
 
-	public void handleInput(int input) {
-		switch (input) {
-			case 1:
-				heroController.moveHero(-1, 0);
-				break;
-			case 2:
-				heroController.moveHero(1, 0);
-				break;
-			case 3:
-				heroController.moveHero(0, 1);
-				break;
-			case 4:
-				heroController.moveHero(0, -1);
-				break;
-			case 5:
-				consoleView.displayHeroStats(hero);
-				break;
-			case 6:
-				consoleView.displayExitMessage();
-				exitGame();
-				break;
-			default:                
+	public void handleInput(char choice) {
+		switch (choice) {
+			case 'w': heroController.moveHero(-1, 0); break;
+			case 's': heroController.moveHero(1, 0); break;
+			case 'd': heroController.moveHero(0, 1); break;
+			case 'a': heroController.moveHero(0, -1); break;
+			case 'e': consoleView.displayHeroStats(hero); break;
+			case 'q': consoleView.displayExitMessage(); exitGame(); break;
+			default:
 				throw new AssertionError();
+				// System.out.println("invalid option");
 		}
 	}
 

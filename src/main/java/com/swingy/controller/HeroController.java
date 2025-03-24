@@ -24,16 +24,13 @@ public class HeroController {
 		this.dbManager = dbManager;
 	}
 
-	public Hero HeroCreator() {
-		int choice = consoleView.chooseHeroClass();
-		String name = consoleView.chooseHeroName();
-
-		switch (choice) {
-			case 1:
+	public Hero HeroCreator(String cl, String name) {
+		switch (cl) {
+			case "warrior":
 				hero = new Warrior(name);
 				consoleView.displayHeroCreation("Warrior", name);
 				break;
-			case 2:
+			case "mage":
 				hero = new Mage(name);
 				consoleView.displayHeroCreation("Mage", name);
 				break;

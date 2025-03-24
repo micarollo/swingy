@@ -54,7 +54,7 @@ public class ConsoleView {
 		return choice;
 	}
 
-	public int chooseHeroClass() {
+	public String chooseHeroClass() {
 		System.out.println("Choose your Hero class:");
 		System.out.println("1. Warrior [Attack:10 | Defense:8 | HP:40]");
 		System.out.println("2. Mage [Attack:8 | Defense:10 | HP:40]");
@@ -76,7 +76,11 @@ public class ConsoleView {
 				scanner.nextLine();
 			}
 		}
-		return choice;
+		if (choice == 1)
+			return "warrior";
+		if (choice == 2)
+			return "mage";
+		return null;
 	}
 
 	public String chooseHeroName() {
@@ -84,30 +88,21 @@ public class ConsoleView {
 		return scanner.nextLine();
 	}
 
-	public int displayMenu() {
-		// int choice;
+	public char displayMenu() {
 		String input;
 		System.out.println("\nWhat do you want to do now?");
-		System.out.println("1. Move North");
-		System.out.println("2. Move South");
-		System.out.println("3. Move East");
-		System.out.println("4. Move West");
-		System.out.println("5. View Hero Stats");
-		System.out.println("6. Exit Game");
-		// choice = scanner.nextInt();
-		// scanner.nextLine();
-		input = scanner.nextLine();
-		try {
-			int option = Integer.parseInt(input);
-			if (option >= 1 && option <= 6) {
-				return option;
-			} else {
-				System.out.println("Error: enter a number between 1 and 6");
-				return -1;
-			}
-		} catch (NumberFormatException e) {
-			System.out.println("Error: enter a valid number.");
-			return -1; // Valor de error
+		System.out.println("(w). Move North");
+		System.out.println("(s). Move South");
+		System.out.println("(d). Move East");
+		System.out.println("(a). Move West");
+		System.out.println("(e). View Hero Stats");
+		System.out.println("(q). Exit Game");
+		input = scanner.nextLine().trim().toLowerCase();
+		if (input.length() == 1 && "wsdaeq".contains(input)) {
+			return input.charAt(0); // Retornamos el carácter
+		} else {
+			System.out.println("Error: enter a valid option (w, s, d, a, e, q).");
+			return '\0';
 		}
 	}
 
