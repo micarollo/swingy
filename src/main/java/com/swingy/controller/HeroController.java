@@ -25,7 +25,7 @@ public class HeroController {
 	}
 
 	public Hero HeroCreator(String cl, String name) {
-		switch (cl) {
+		switch (cl.toLowerCase()) {
 			case "warrior":
 				hero = new Warrior(name);
 				consoleView.displayHeroCreation("Warrior", name);

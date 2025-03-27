@@ -46,4 +46,8 @@ public class Map {
 	public void killVillain() {
 		this.maxVillians--;
 	}
+
+	public int[][] getGridMap() {
+		return gridMap;
+	}
 }

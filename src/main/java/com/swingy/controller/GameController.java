@@ -25,6 +25,7 @@ public class GameController {
 	private final HeroController heroController;
 	private final VillainController villainController;
 	private Hero hero;
+	private boolean guiMode = false;
 
 	public GameController() {
 		this.dbManager = new DbManager("jdbc:sqlite:swingy.db");
@@ -69,6 +70,7 @@ public class GameController {
 
 	public void startGuiModeGame() {
 		SwingUtilities.invokeLater(() -> {
+			guiMode = true;
             guiView.init();
 			guiView.setVisible(true);
         });
@@ -78,6 +80,15 @@ public class GameController {
 		List<Object[]> heroesData = dbManager.getAllHeroData();
 		int id = guiView.showHeroSelectionDialog(heroesData);
 		System.out.println(id);
+		//todo: create new method to reuse this code
+		hero = dbManager.getHeroById(id);
+		heroController.setHero(hero);
+		setArtifactsFromDB(hero);
+		int villains = dbManager.getVillains(id);
+		System.out.println(hero);
+		mapController.createMap(hero.getLevel());
+		mapController.setUpMap(hero.getX(), hero.getY(), villains);
+		guiView.drawMap(mapController.getMap().getGridMap());
 	}
 
 	public void createNewHeroGuiMode() {
@@ -88,10 +99,11 @@ public class GameController {
 		dbManager.saveHero(hero);
 		mapController.setUpMap(mapController.getMap().getSize() / 2, mapController.getMap().getSize() / 2, mapController.getMap().calculateVillains());
 		dbManager.updateVillains(mapController.getMap().getMaxVillains(), hero.getName());
+		guiView.drawMap(mapController.getMap().getGridMap());
 	}
 
 	public void gameLoop() {
-		while (true) { 
+		while (true) {
 			char input = consoleView.displayMenu();
 			if (input != '\0') {
 				handleInput(input);

@@ -24,11 +24,12 @@ import com.swingy.controller.GameController;
 
 public class GuiView extends JFrame {
 	private final GameController gameController;
+	private MapPanel mapPanel;
 
 	public GuiView(GameController gameController) {
 		this.gameController = gameController;		
 		setTitle("Swingy RPG");
-		setSize(1500, 1000);
+		setSize(720, 820); //check!!!!
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		// init();
@@ -52,6 +53,10 @@ public class GuiView extends JFrame {
 		existingHeroButton.addActionListener(e -> gameController.selectHeroGuiMode());
 		newHeroButton.addActionListener(e -> gameController.createNewHeroGuiMode());
 		add(buttonPanel, BorderLayout.CENTER);
+
+		mapPanel = new MapPanel();
+        // mapPanel.setPreferredSize(new Dimension(400, 400));
+        add(mapPanel, BorderLayout.SOUTH);
 	}
 
 	//move outside view
@@ -74,7 +79,7 @@ public class GuiView extends JFrame {
 		dialog.setSize(600, 500);
 		dialog.setLayout(new BorderLayout());
 
-		final Integer[] selectedHeroId = {null};
+		final Integer[] selectedHeroId = {null};     
 		// confirm selection
 		JButton selectButton = new JButton("Select Hero");
 		selectButton.addActionListener(e -> {
@@ -136,5 +141,22 @@ public class GuiView extends JFrame {
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 		return heroData;
+	}
+
+	public void drawMap(int[][] map) {
+		getContentPane().removeAll();
+		mapPanel.setMap(map);
+
+		int width = map[0].length * 80;
+		int height = map.length * 80 + 20;
+
+		setSize(width, height);
+		setResizable(false);
+
+		add(mapPanel, BorderLayout.CENTER);
+
+		// actualizar UI
+		revalidate();
+		repaint();
 	}
 }
