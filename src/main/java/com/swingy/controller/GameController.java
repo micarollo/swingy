@@ -114,10 +114,10 @@ public class GameController {
 
 	public void handleInput(char choice) {
 		switch (choice) {
-			case 'w': heroController.moveHero(-1, 0); break;
-			case 's': heroController.moveHero(1, 0); break;
-			case 'd': heroController.moveHero(0, 1); break;
-			case 'a': heroController.moveHero(0, -1); break;
+			case 'w': heroController.moveHero(-1, 0, guiMode); break;
+			case 's': heroController.moveHero(1, 0, guiMode); break;
+			case 'd': heroController.moveHero(0, 1, guiMode); break;
+			case 'a': heroController.moveHero(0, -1, guiMode); break;
 			case 'e': consoleView.displayHeroStats(hero); break;
 			case 'q': consoleView.displayExitMessage(); exitGame(); break;
 			default:
