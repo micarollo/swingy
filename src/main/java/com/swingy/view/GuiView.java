@@ -1,9 +1,11 @@
 package com.swingy.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -25,6 +27,7 @@ import com.swingy.controller.GameController;
 public class GuiView extends JFrame {
 	private final GameController gameController;
 	private MapPanel mapPanel;
+	private JButton helpButton;
 
 	public GuiView(GameController gameController) {
 		this.gameController = gameController;		
@@ -32,7 +35,6 @@ public class GuiView extends JFrame {
 		setSize(720, 820); //check!!!!
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
-		// init();
 	}
 
 	public void init() {
@@ -55,8 +57,7 @@ public class GuiView extends JFrame {
 		add(buttonPanel, BorderLayout.CENTER);
 
 		mapPanel = new MapPanel();
-        // mapPanel.setPreferredSize(new Dimension(400, 400));
-        add(mapPanel, BorderLayout.SOUTH);
+		add(mapPanel, BorderLayout.SOUTH);
 	}
 
 	//move outside view
@@ -143,19 +144,80 @@ public class GuiView extends JFrame {
 		return heroData;
 	}
 
+	private void showInitialControlsDialog() {
+        String controls = "<html><div style='text-align:center;'><h2>Game Controls</h2>"
+                + "<p><b>WASD</b> - To move yout Hero</p>"
+                + "<p><b>E</b> - Open Hero Stats</p>"
+                + "<p><b>Q</b> - Exit</p>"
+                + "<p>Then you can check this using: <b>?</b> button </p></div></html>";
+
+			JOptionPane.showOptionDialog(
+            this,
+            controls,
+            "Game Controls",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.INFORMATION_MESSAGE,
+            null,
+            new Object[]{"Ok"},
+            "Ok"
+        );
+    }
+
+	private void styleHelpButton() {
+        helpButton.setFont(new Font("Arial", Font.BOLD, 14));
+        helpButton.setPreferredSize(new Dimension(30, 25)); // Tamaño pequeño
+        helpButton.setMargin(new Insets(0, 0, 0, 0));
+        helpButton.setToolTipText("Mostrar controles");
+        helpButton.addActionListener(e -> showInitialControlsDialog());
+    }
+
+	// public void drawMap(int[][] map) {
+	// 	getContentPane().removeAll();
+	// 	mapPanel.setMap(map);
+
+	// 	int width = map[0].length * 80;
+	// 	int height = map.length * 80 + 20;
+
+	// 	setSize(width, height);
+	// 	setResizable(false);
+
+	// 	add(mapPanel, BorderLayout.CENTER);
+
+	// 	// actualizar UI
+	// 	revalidate();
+	// 	repaint();
+	// }
+
 	public void drawMap(int[][] map) {
+		showInitialControlsDialog();
 		getContentPane().removeAll();
+		mapPanel = new MapPanel();
 		mapPanel.setMap(map);
 
-		int width = map[0].length * 80;
-		int height = map.length * 80 + 20;
-
-		setSize(width, height);
-		setResizable(false);
-
+		int cellSize = 80;
+		mapPanel.setPreferredSize(
+			new Dimension(
+				map[0].length * cellSize,
+				map.length * cellSize
+			)
+		);
+		helpButton = new JButton("?");
+        styleHelpButton();
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        bottomPanel.add(helpButton);
 		add(mapPanel, BorderLayout.CENTER);
+		add(bottomPanel, BorderLayout.SOUTH);
 
-		// actualizar UI
+		pack();
+		//bordes internos del JFrame
+		Insets insets = getInsets();
+		//calc tamaño final sumando los bordes
+		int totalWidth = map[0].length * cellSize + insets.left + insets.right;
+		int totalHeight = map.length * cellSize + insets.top + insets.bottom + 40;
+		setMinimumSize(new Dimension(totalWidth, totalHeight));
+		setSize(totalWidth, totalHeight);
+		setLocationRelativeTo(null);
+
 		revalidate();
 		repaint();
 	}
