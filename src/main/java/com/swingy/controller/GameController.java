@@ -34,7 +34,7 @@ public class GameController {
 		this.mapController = new MapController();
 		mapController.createMap(1);
 		this.villainController = new VillainController();
-		this.heroController = new HeroController(consoleView, mapController, this, dbManager);
+		this.heroController = new HeroController(consoleView, guiView, mapController, this, dbManager);
 	}
 
 	public void startGame() {
@@ -118,7 +118,10 @@ public class GameController {
 			case 's': heroController.moveHero(1, 0, guiMode); break;
 			case 'd': heroController.moveHero(0, 1, guiMode); break;
 			case 'a': heroController.moveHero(0, -1, guiMode); break;
-			case 'e': consoleView.displayHeroStats(hero); break;
+			case 'e': 
+				if (guiMode) guiView.displayHeroStats(hero); 
+				else consoleView.displayHeroStats(hero); 
+				break;
 			case 'q': consoleView.displayExitMessage(); exitGame(); break;
 			default:
 				throw new AssertionError();

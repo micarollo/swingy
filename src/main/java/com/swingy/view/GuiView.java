@@ -4,12 +4,22 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Color;
+import java.awt.Point;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.util.List;
 
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,11 +28,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
+import javax.swing.KeyStroke;
+import javax.swing.ListSelectionModel;  // Para el parámetro del actionPerformed
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import javax.swing.JWindow;
 
 import com.swingy.controller.GameController;
+import com.swingy.model.Hero;
 
 public class GuiView extends JFrame {
 	private final GameController gameController;
@@ -39,7 +53,10 @@ public class GuiView extends JFrame {
 
 	public void init() {
 		setLayout(new BorderLayout());
+		showMainMenu();
+	}
 
+	public void showMainMenu() {
 		JLabel titleLabel = new JLabel("Bienvenido a Swingy RPG", SwingConstants.CENTER);
 		titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
 		add(titleLabel, BorderLayout.NORTH);
@@ -105,7 +122,6 @@ public class GuiView extends JFrame {
 	}
 
 	public String[] showNewHeroDialog() {
-		System.out.println("Here");
 		JDialog dialog = new JDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Create a New Hero", true);
 		dialog.setSize(400, 300);
 		dialog.setLayout(new BorderLayout());
@@ -145,48 +161,92 @@ public class GuiView extends JFrame {
 	}
 
 	private void showInitialControlsDialog() {
-        String controls = "<html><div style='text-align:center;'><h2>Game Controls</h2>"
-                + "<p><b>WASD</b> - To move yout Hero</p>"
-                + "<p><b>E</b> - Open Hero Stats</p>"
-                + "<p><b>Q</b> - Exit</p>"
-                + "<p>Then you can check this using: <b>?</b> button </p></div></html>";
+		// JDialog controlsDialog = new JDialog(this, "Game Controls", true);
+		// controlsDialog.setSize(400, 300);
+		// controlsDialog.setLayout(new BorderLayout());
 
-			JOptionPane.showOptionDialog(
-            this,
-            controls,
-            "Game Controls",
-            JOptionPane.DEFAULT_OPTION,
-            JOptionPane.INFORMATION_MESSAGE,
-            null,
-            new Object[]{"Ok"},
-            "Ok"
-        );
+		// // Panel principal con márgenes
+		// JPanel contentPanel = new JPanel();
+		// contentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		// contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+
+		// // Panel de controles con grid
+		// JPanel controlsPanel = new JPanel(new GridLayout(0, 1, 5, 10));
+		
+		// // Añadir cada control con formato
+		// addControlLine(controlsPanel, "WASD", "Move your hero");
+		// addControlLine(controlsPanel, "E", "Open hero stats");
+		// addControlLine(controlsPanel, "Q", "Exit game");
+
+		// contentPanel.add(controlsPanel);
+		// contentPanel.add(Box.createVerticalGlue());
+
+		// // Botón OK centrado
+		// JButton okButton = new JButton("OK");
+		// okButton.setFont(new Font("Arial", Font.BOLD, 14));
+		// okButton.setPreferredSize(new Dimension(100, 30));
+		// okButton.addActionListener(e -> controlsDialog.dispose());
+		
+		// JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		// buttonPanel.add(okButton);
+
+		// // Ensamblar diálogo
+		// controlsDialog.add(contentPanel, BorderLayout.CENTER);
+		// controlsDialog.add(buttonPanel, BorderLayout.SOUTH);
+		// controlsDialog.setLocationRelativeTo(this);
+		// controlsDialog.setVisible(true);
+		JDialog controlsDialog = new JDialog(this, "Game Controls", true);
+		controlsDialog.setSize(350, 350);  // Mismo tamaño que stats
+		controlsDialog.setLayout(new BorderLayout());
+
+		JPanel contentPanel = new JPanel();
+		contentPanel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+
+		JPanel controlsPanel = new JPanel(new GridLayout(0, 1, 8, 12));
+		Font statsFont = new Font("Arial", Font.PLAIN, 20);
+		controlsPanel.add(createStatLabel("WASD - Move your hero", statsFont));
+		controlsPanel.add(createStatLabel("E - Open hero stats", statsFont));
+		controlsPanel.add(createStatLabel("Q - Exit game", statsFont));
+
+		contentPanel.add(controlsPanel);
+		contentPanel.add(Box.createVerticalGlue());
+
+		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JButton okButton = new JButton("OK");
+		okButton.setFont(new Font("Arial", Font.BOLD, 16));
+		okButton.setPreferredSize(new Dimension(120, 40));
+		okButton.addActionListener(e -> controlsDialog.dispose());
+		buttonPanel.add(okButton);
+
+		controlsDialog.add(contentPanel, BorderLayout.CENTER);
+		controlsDialog.add(buttonPanel, BorderLayout.SOUTH);
+		controlsDialog.setLocationRelativeTo(this);
+		controlsDialog.setVisible(true);
     }
+
+	// private void addControlLine(JPanel panel, String key, String description) {
+	// 	JPanel linePanel = new JPanel(new BorderLayout());
+		
+	// 	JLabel keyLabel = new JLabel(key);
+	// 	keyLabel.setFont(new Font("Arial", Font.BOLD, 16));
+	// 	keyLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
+		
+	// 	JLabel descLabel = new JLabel(description);
+	// 	descLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+		
+	// 	linePanel.add(keyLabel, BorderLayout.WEST);
+	// 	linePanel.add(descLabel, BorderLayout.CENTER);
+	// 	panel.add(linePanel);
+	// }
 
 	private void styleHelpButton() {
         helpButton.setFont(new Font("Arial", Font.BOLD, 14));
-        helpButton.setPreferredSize(new Dimension(30, 25)); // Tamaño pequeño
+        helpButton.setPreferredSize(new Dimension(100, 25));
         helpButton.setMargin(new Insets(0, 0, 0, 0));
         helpButton.setToolTipText("Mostrar controles");
         helpButton.addActionListener(e -> showInitialControlsDialog());
     }
-
-	// public void drawMap(int[][] map) {
-	// 	getContentPane().removeAll();
-	// 	mapPanel.setMap(map);
-
-	// 	int width = map[0].length * 80;
-	// 	int height = map.length * 80 + 20;
-
-	// 	setSize(width, height);
-	// 	setResizable(false);
-
-	// 	add(mapPanel, BorderLayout.CENTER);
-
-	// 	// actualizar UI
-	// 	revalidate();
-	// 	repaint();
-	// }
 
 	public void drawMap(int[][] map) {
 		showInitialControlsDialog();
@@ -201,7 +261,7 @@ public class GuiView extends JFrame {
 				map.length * cellSize
 			)
 		);
-		helpButton = new JButton("?");
+		helpButton = new JButton("? Help");
         styleHelpButton();
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         bottomPanel.add(helpButton);
@@ -218,7 +278,120 @@ public class GuiView extends JFrame {
 		setSize(totalWidth, totalHeight);
 		setLocationRelativeTo(null);
 
+		//activar controles
+		setupKeyBindings();
 		revalidate();
 		repaint();
+	}
+
+	public void repaintMap(int[][] map) {
+		mapPanel.updateMap(map);
+	}
+
+	private void setupKeyBindings() {
+		InputMap inputMap = mapPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		ActionMap actionMap = mapPanel.getActionMap();
+		inputMap.clear();
+
+		String[] keys = {"W", "A", "S", "D", "E", "Q", "w", "a", "s", "d", "e", "q"};
+		for (String key : keys) {
+			inputMap.put(KeyStroke.getKeyStroke(key), key);
+			actionMap.put(key, new AbstractAction() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// if (currentState == GameState.MAP) {
+					System.out.println(key.charAt(0));
+						gameController.handleInput(Character.toLowerCase(key.charAt(0)));
+					// }
+				}
+			});	
+		}
+	}
+
+	public void displayHeroStats(Hero hero) {
+		JDialog statsDialog = new JDialog(this, "Hero Stats", true);
+		statsDialog.setSize(350, 350);  // Ventana más grande
+		statsDialog.setLayout(new BorderLayout());
+
+		// Panel para los stats con letra más grande
+		JPanel statsPanel = new JPanel(new GridLayout(6, 1, 8, 12));
+		statsPanel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+		
+		Font statsFont = new Font("Arial", Font.PLAIN, 20);
+		
+		statsPanel.add(createStatLabel("Name: " + hero.getName(), statsFont));
+		statsPanel.add(createStatLabel("Class: " + hero.getHeroClass(), statsFont));
+		statsPanel.add(createStatLabel("Level: " + hero.getLevel(), statsFont));
+		statsPanel.add(createStatLabel("HP: " + hero.getHitPoints(), statsFont));
+		statsPanel.add(createStatLabel("Attack: " + hero.getAttack(), statsFont));
+		statsPanel.add(createStatLabel("Exp: " + hero.getExperience() + "/" + hero.calculateLevelUp(hero.getLevel()), statsFont));
+
+		// Botón OK centrado
+		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JButton okButton = new JButton("OK");
+		okButton.setFont(new Font("Arial", Font.BOLD, 16));
+		okButton.setPreferredSize(new Dimension(120, 40));
+		okButton.addActionListener(e -> statsDialog.dispose());
+		buttonPanel.add(okButton);
+
+		statsDialog.add(statsPanel, BorderLayout.CENTER);
+		statsDialog.add(buttonPanel, BorderLayout.SOUTH);
+		statsDialog.setLocationRelativeTo(this);
+		statsDialog.setVisible(true);
+	}
+
+	private JLabel createStatLabel(String text, Font font) {
+		JLabel label = new JLabel(text, SwingConstants.CENTER);
+		label.setFont(font);
+		return label;
+	}
+
+	public void showHpRecoveryMessage(int hpRecovered, int currentHp) {
+		// JDialog popup = new JDialog(this);
+		// popup.setUndecorated(true); // Sin bordes
+		// popup.setSize(250, 100);
+		// popup.setLayout(new BorderLayout());
+		
+		// JLabel message = new JLabel(
+		// 	"<html><center>🧪 +" + hpRecovered + " HP<br>Total: " + currentHp + "</center></html>", 
+		// 	SwingConstants.CENTER
+		// );
+		// message.setFont(new Font("Arial", Font.BOLD, 14));
+		// popup.add(message, BorderLayout.CENTER);
+		
+		// // Posición: esquina superior derecha
+		// Point loc = getLocation();
+		// popup.setLocation(loc.x + getWidth() - 260, loc.y + 30);
+		
+		// // Temporizador para auto-cierre (3 segundos)
+		// new Timer(2000, e -> popup.dispose()).start();
+		
+		// popup.setVisible(true);
+		JPanel toastPanel = new JPanel();
+		toastPanel.setBackground(new Color(50, 50, 50, 220)); // Fondo oscuro semi-transparente
+		toastPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+		
+		JLabel label = new JLabel("+" + hpRecovered + " HP  (Total: " + currentHp + ")");
+		label.setForeground(Color.WHITE);
+		label.setFont(new Font("Arial", Font.BOLD, 12));
+		toastPanel.add(label);
+		
+		JWindow toast = new JWindow();
+		toast.getContentPane().add(toastPanel);
+		toast.pack();
+		
+		// Posición inferior centrada
+		Point loc = getLocation();
+		toast.setLocation(
+			loc.x + (getWidth() - toast.getWidth()) / 2,
+			loc.y + getHeight() - 100
+		);
+		
+		toast.setVisible(true);
+		
+		// Auto-cierre después de 2 segundos
+		new Timer(2000, e -> {
+			toast.dispose();
+		}).start();
 	}
 }

@@ -8,17 +8,20 @@ import com.swingy.model.Hero;
 import com.swingy.model.Mage;
 import com.swingy.model.Warrior;
 import com.swingy.view.ConsoleView;
+import com.swingy.view.GuiView;
 
 public class HeroController {
 	private final ConsoleView consoleView;
+	private final GuiView guiView;
 	private final MapController mapController;
 	private final GameController gameController;
 	private final DbManager dbManager;
 	private Hero hero;
 	Random random = new Random();
 
-	public HeroController(ConsoleView consoleView, MapController mapController, GameController gameController, DbManager dbManager) {
+	public HeroController(ConsoleView consoleView, GuiView guiView, MapController mapController, GameController gameController, DbManager dbManager) {
 		this.consoleView = consoleView;
+		this.guiView = guiView;
 		this.mapController = mapController;
 		this.gameController = gameController;
 		this.dbManager = dbManager;
@@ -49,6 +52,8 @@ public class HeroController {
 		switch (result) {
 			case 0:
 				updatePosition(nx, ny);
+				if (guiMode)
+					guiView.repaintMap(mapController.getMap().getGridMap());
 				handleHpRecovery(guiMode);
 				// mapController.updateMap(hero.getX(), hero.getY(), 0);
 				// updateHeroPosition((hero.getX() + nx), (hero.getY() + ny));
@@ -100,7 +105,7 @@ public class HeroController {
 			hero.recoverHp(hpRecovered);
 			dbManager.updateHero(hero);
 			if (guiMode) {
-				//create fc
+				guiView.showHpRecoveryMessage(hpRecovered, hero.getHitPoints());
 			} else {
 				System.out.println("\uD83E\uDDEA You found a health potion! Restored " + hpRecovered + " HP.");
 				System.out.println("HitPoints: " + hero.getHitPoints());
