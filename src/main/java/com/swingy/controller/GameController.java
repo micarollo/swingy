@@ -129,50 +129,114 @@ public class GameController {
 		}
 	}
 
-	public void handleBattle(Hero hero, int newX, int newY) {
+	private void heroTurn(Hero hero, Villain villain) throws InterruptedException {
 		Random random = new Random();
-		Villain villain = villainController.villainCreator(hero.getLevel());
-		double heroDodge = 0.2;
 		double villainDodge = 0.1;
-		consoleView.villainAppears(villain);
-		System.out.println("<<-------------FIGHTING------------>>");
+		
+		if (random.nextDouble() >= villainDodge) {
+			int heroDamage = hero.getBoostAttack() + random.nextInt(5);
+			villain.takeDamage(heroDamage);
+			// if (guiMode) 
+			// 	guiView.showAttackMessage(true, heroDamage);
+			// else 
+				consoleView.heroAttackMsg(villain);
+		} else {
+			// if (guiMode) 
+			// 	guiView.showDodgeMessage(false);
+			// else 
+				consoleView.dodgedMsg("Villain");
+		}
+		Thread.sleep(500);
+	}
+
+	private void villainTurn(Hero hero, Villain villain) throws InterruptedException {
+		Random random = new Random();
+		double heroDodge = 0.2;
+		
+		if (random.nextDouble() >= heroDodge) {
+			int villainDamage = villain.getAttack() + random.nextInt(3);
+			hero.takeDamage(villainDamage);
+			// if (guiMode) 
+			// 	guiView.showAttackMessage(false, villainDamage);
+			// else 
+				consoleView.villainAttackMsg(hero);
+		} else {
+			// if (guiMode) 
+			// 	guiView.showDodgeMessage(true);
+			// else 
+				consoleView.dodgedMsg("Hero");
+		}
+		Thread.sleep(500);
+	}
+
+	public void handleBattle(Hero hero, int newX, int newY) {
+		Villain villain = villainController.villainCreator(hero.getLevel());
+		// if (guiMode) 
+		// 	guiView.showEnemyAppeared(villain);
+		// else 
+			consoleView.villainAppears(villain);
 		while (hero.isAlive() && villain.isAlive()) {
 			try {
-				if (random.nextDouble() >= villainDodge) {
-					int heroDamage = hero.getBoostAttack() + random.nextInt(5);
-					villain.takeDamage(heroDamage);
-					consoleView.heroAttackMsg(villain);
-					Thread.sleep(500);
-				} else {
-					consoleView.dodgedMsg("Villain");
-					Thread.sleep(300);
-				}
-				if (!villain.isAlive())
-				{
+				heroTurn(hero, villain);
+				if (!villain.isAlive()) {
 					battleWon(villain, newX, newY);
-					Thread.sleep(1000);
 					return;
 				}
-				if (random.nextDouble() >= heroDodge) {
-					int villainDamage = villain.getAttack() + random.nextInt(3);
-					hero.takeDamage(villainDamage);
-					consoleView.villainAttackMsg(hero);
-					Thread.sleep(500);
-				} else {
-					consoleView.dodgedMsg("Hero");
-					Thread.sleep(300);
-				}
-				if (!hero.isAlive())
-				{
+				villainTurn(hero, villain);
+				if (!hero.isAlive()) {
 					battleLost();
-					Thread.sleep(1000);
-
+					return;
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}   
+		}
 	}
+
+	// public void handleBattleOLD(Hero hero, int newX, int newY) {
+	// 	Random random = new Random();
+	// 	Villain villain = villainController.villainCreator(hero.getLevel());
+	// 	double heroDodge = 0.2;
+	// 	double villainDodge = 0.1;
+	// 	consoleView.villainAppears(villain);
+	// 	System.out.println("<<-------------FIGHTING------------>>");
+	// 	while (hero.isAlive() && villain.isAlive()) {
+	// 		try {
+	// 			if (random.nextDouble() >= villainDodge) {
+	// 				int heroDamage = hero.getBoostAttack() + random.nextInt(5);
+	// 				villain.takeDamage(heroDamage);
+	// 				consoleView.heroAttackMsg(villain);
+	// 				Thread.sleep(500);
+	// 			} else {
+	// 				consoleView.dodgedMsg("Villain");
+	// 				Thread.sleep(300);
+	// 			}
+	// 			if (!villain.isAlive())
+	// 			{
+	// 				battleWon(villain, newX, newY);
+	// 				Thread.sleep(1000);
+	// 				return;
+	// 			}
+	// 			if (random.nextDouble() >= heroDodge) {
+	// 				int villainDamage = villain.getAttack() + random.nextInt(3);
+	// 				hero.takeDamage(villainDamage);
+	// 				consoleView.villainAttackMsg(hero);
+	// 				Thread.sleep(500);
+	// 			} else {
+	// 				consoleView.dodgedMsg("Hero");
+	// 				Thread.sleep(300);
+	// 			}
+	// 			if (!hero.isAlive())
+	// 			{
+	// 				battleLost();
+	// 				Thread.sleep(1000);
+
+	// 			}
+	// 		} catch (InterruptedException e) {
+	// 			e.printStackTrace();
+	// 		}
+	// 	}   
+	// }
 
 	private void battleWon(Villain villain, int newX, int newY) {
 		consoleView.winningMsg();
@@ -205,7 +269,6 @@ public class GameController {
 		}
 		else
 			consoleView.badLuckMsg();
-			// System.out.println("bad luck: the villain didnt drop any artifact!!");
 	}
 
 	public void gainHeroExperience(Hero hero, Villain villain) {
@@ -217,8 +280,6 @@ public class GameController {
 			hero.levelUp(hero.calculateLevelUp(hero.getLevel()));
 			mapController.changeLevel(hero.getLevel());
 			heroController.updateHeroPosition((mapController.getSize() / 2), (mapController.getSize() / 2));
-			// System.out.println("X: " + hero.getX() + " Y: " + hero.getY());
-			// System.out.println("HP: " + hero.getHitPoints());
 		}
 	}
 

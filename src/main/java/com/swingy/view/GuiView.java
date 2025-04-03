@@ -1,13 +1,13 @@
 package com.swingy.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Color;
-import java.awt.Point;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
@@ -28,12 +28,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JWindow;
 import javax.swing.KeyStroke;
-import javax.swing.ListSelectionModel;  // Para el parámetro del actionPerformed
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import javax.swing.JWindow;
 
 import com.swingy.controller.GameController;
 import com.swingy.model.Hero;
@@ -313,7 +313,6 @@ public class GuiView extends JFrame {
 		statsDialog.setSize(350, 350);  // Ventana más grande
 		statsDialog.setLayout(new BorderLayout());
 
-		// Panel para los stats con letra más grande
 		JPanel statsPanel = new JPanel(new GridLayout(6, 1, 8, 12));
 		statsPanel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
 		
@@ -347,49 +346,26 @@ public class GuiView extends JFrame {
 	}
 
 	public void showHpRecoveryMessage(int hpRecovered, int currentHp) {
-		// JDialog popup = new JDialog(this);
-		// popup.setUndecorated(true); // Sin bordes
-		// popup.setSize(250, 100);
-		// popup.setLayout(new BorderLayout());
-		
-		// JLabel message = new JLabel(
-		// 	"<html><center>🧪 +" + hpRecovered + " HP<br>Total: " + currentHp + "</center></html>", 
-		// 	SwingConstants.CENTER
-		// );
-		// message.setFont(new Font("Arial", Font.BOLD, 14));
-		// popup.add(message, BorderLayout.CENTER);
-		
-		// // Posición: esquina superior derecha
-		// Point loc = getLocation();
-		// popup.setLocation(loc.x + getWidth() - 260, loc.y + 30);
-		
-		// // Temporizador para auto-cierre (3 segundos)
-		// new Timer(2000, e -> popup.dispose()).start();
-		
-		// popup.setVisible(true);
 		JPanel toastPanel = new JPanel();
 		toastPanel.setBackground(new Color(50, 50, 50, 220)); // Fondo oscuro semi-transparente
 		toastPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-		
+
 		JLabel label = new JLabel("+" + hpRecovered + " HP  (Total: " + currentHp + ")");
 		label.setForeground(Color.WHITE);
 		label.setFont(new Font("Arial", Font.BOLD, 12));
 		toastPanel.add(label);
-		
+
 		JWindow toast = new JWindow();
 		toast.getContentPane().add(toastPanel);
 		toast.pack();
-		
-		// Posición inferior centrada
+
 		Point loc = getLocation();
 		toast.setLocation(
 			loc.x + (getWidth() - toast.getWidth()) / 2,
 			loc.y + getHeight() - 100
 		);
-		
 		toast.setVisible(true);
-		
-		// Auto-cierre después de 2 segundos
+
 		new Timer(2000, e -> {
 			toast.dispose();
 		}).start();

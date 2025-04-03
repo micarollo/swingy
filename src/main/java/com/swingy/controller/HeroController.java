@@ -105,6 +105,7 @@ public class HeroController {
 			hero.recoverHp(hpRecovered);
 			dbManager.updateHero(hero);
 			if (guiMode) {
+				// System.out.println(hpRecovered + "hp total: " + hero.getHitPoints());
 				guiView.showHpRecoveryMessage(hpRecovered, hero.getHitPoints());
 			} else {
 				System.out.println("\uD83E\uDDEA You found a health potion! Restored " + hpRecovered + " HP.");

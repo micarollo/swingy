@@ -11,6 +11,7 @@ public abstract class Hero extends Character {
 	private Armor armor;
 	private Weapon weapon;
 
+	//TODO: when hero from DB starting HP is not hitPoints
 	public Hero(String name, int level, int attack, int defense, int hitPoints, int experience, int x, int y) {
 		super(name, level, attack, defense, hitPoints);
 		this.experience = experience;
@@ -81,7 +82,7 @@ public abstract class Hero extends Character {
 		if ((getHitPoints() + n) > startingHP)
 			setHitPoints(startingHP);
 		else
-			setHitPoints(getHitPoints() + n);	
+			setHitPoints(getHitPoints() + n);
 	}
 
 	public void setLevel(int level) { this.level = level; }
